@@ -12,6 +12,8 @@ const nurseRouter = require("./staff-routes/nurseRouter");
 const qaRouter = require("./staff-routes/qaRouter");
 const residentRouter = require("./staff-routes/residentRouter");
 
+const authRouter = require("./user-auth-routes/authRoutes");
+
 module.exports = {
   medicalResponseRouter,
   redEvatRouter,
@@ -23,4 +25,5 @@ module.exports = {
   nurseRouter,
   qaRouter,
   residentRouter,
+  authRouter,
 };

@@ -1,4 +1,4 @@
-const getAllDoctors = (req, res) => {
+const getAllDoctors = async (req, res) => {
   res.json({
     result: "getAllDoctors",
     success: "true",
