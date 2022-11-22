@@ -1,36 +1,66 @@
-const getAllPatients = (req, res) => {
-  res.json({
-    result: "getAllPatients",
-    success: "true",
+const {PatientModel} = require ('./../../models');
+const {StatusCodes} = require ('http-status-codes');
+
+
+
+const getAllPatients = async(req,res)=>{
+  const patients = await PatientModel.find();
+  res.status(StatusCodes.ACCEPTED).json({
+    data: patients,
+    success:"true",
   });
 };
 
-const getPatient = (req, res) => {
-  res.json({
-    result: "getPatient",
-    success: "true",
+
+const getPatient = async (req, res) => {
+const {id}= req.params;
+const patient = await PatientModel.findById(id);
+if (!patient){
+  throw new NotFoundError("Paciente no encontrado");
+}
+res.status(StatusCodes.ACCEPTED).json({
+  data: patient,
+  success:true,
+});
+
+};
+
+const addPatient = async(req, res) => {
+const newPatient = await PatientModel.create(req.body);
+res.status(StatusCodes.CREATED).json({
+  result: newPatient,
+  success:"true",
+})
+};
+
+const updatePatient = async(req, res) => {
+  const {id} = req.params;
+  const upPatient =await PatientModel.findByIdAndUpdate(
+    id,
+    {...req.body},
+    {new:true,
+    runValidators:true,
+  }
+
+  
+  
+  );
+  if (!upPatient){
+    throw new NotFoundError("no encontrado");
+  }
+  res.status(StatusCodes.ACCEPTED).json({
+    data:upPatient,
+    success:"true",
   });
 };
 
-const addPatient = (req, res) => {
-  res.json({
-    result: "addPatient",
-    success: "true",
-  });
-};
-
-const updatePatient = (req, res) => {
-  res.json({
-    result: "updatePatient",
-    success: "true",
-  });
-};
-
-const deletePatient = (req, res) => {
-  res.json({
-    result: "deletePatient",
-    success: "true",
-  });
+const deletePatient = async(req, res) => {
+  const {id} = req.params;
+  await PatientModel.findByIdAndRemove(id);
+  res.status(StatusCodes.ACCEPTED).json({
+    data:null,
+    success:"true",
+  })
 };
 
 module.exports = {
