@@ -1,3 +1,4 @@
+
 const {DoctorModel} = require('./../.././models');
 const {StatusCodes}= require('http-status-codes');
 
@@ -6,7 +7,7 @@ const getAllDoctors = async(req, res) => {
   res.status(StatusCodes.ACCEPTED).json({
     data: doctors,
     success: true,
-  });
+
 };
 
 const getDoctor = async(req, res) => {

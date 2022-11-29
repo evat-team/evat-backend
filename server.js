@@ -2,6 +2,8 @@ require("dotenv").config();
 const connectDB = require("./db/dbConnection");
 const app = require("./app");
 const PORT = process.env.PORT || 3000;
+
+
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
@@ -12,4 +14,6 @@ const start = async () => {
     console.log(err);
   }
 };
+
+
 start();

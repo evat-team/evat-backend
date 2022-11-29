@@ -12,6 +12,8 @@ const nurseController = require("./staff-controllers/nurseController");
 const qaController = require("./staff-controllers/qaController");
 const residentController = require("./staff-controllers/residentController");
 
+const login = require("./user-auth-middleware/login");
+
 module.exports = {
   medicalResponseController,
   redEvatController,
@@ -23,4 +25,5 @@ module.exports = {
   nurseController,
   qaController,
   residentController,
+  login,
 };
