@@ -1,7 +1,5 @@
-const medicalResponseController = require("./evat-rojo-controllers/medicalResponseController");
-const redEvatController = require("./evat-rojo-controllers/redEvatController");
-const registerComponentController = require("./evat-rojo-controllers/registerComponentsEvatController");
-const trackingController = require("./evat-rojo-controllers/trackingController");
+const dailyFormController = require("./medical-forms-controllers/daily-form-controller");
+const redEvatController = require("./medical-forms-controllers/redEvatController");
 
 const patientController = require("./patient-controller/patientController");
 
@@ -12,18 +10,16 @@ const nurseController = require("./staff-controllers/nurseController");
 const qaController = require("./staff-controllers/qaController");
 const residentController = require("./staff-controllers/residentController");
 
-const login = require("./user-auth-middleware/login");
+const userAuthController = require("./user-auth-controller/login");
 
 module.exports = {
-  medicalResponseController,
+  dailyFormController,
   redEvatController,
-  registerComponentController,
-  trackingController,
   patientController,
   recordController,
   doctorController,
   nurseController,
   qaController,
   residentController,
-  login,
+  userAuthController,
 };

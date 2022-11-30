@@ -1,5 +1,5 @@
 const express = require("express");
-const { redEvatController } = require("./../../controllers");
+const { redEvatController } = require("../../controllers");
 
 const router = express.Router();
 
@@ -12,6 +12,6 @@ router
   .route("/:id")
   .get(redEvatController.getRedEvat)
   .patch(redEvatController.updateRedEvat)
-  .delete(redEvatController.updateRedEvat);
+  .delete(redEvatController.deleteRedEvat);
 
 module.exports = router;

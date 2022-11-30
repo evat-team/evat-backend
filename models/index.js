@@ -1,7 +1,5 @@
-const MedicalResponseModel = require("./evat-rojo-models/medicalResponseModel");
-const RedEvatModel = require("./evat-rojo-models/redEvatModel");
-const RegisterComponentModel = require("./evat-rojo-models/registerComponentsEvatModel");
-const TrackingModel = require("./evat-rojo-models/trackingModel");
+const DailyFormModel = require("./medical-forms-models/daily-form-model");
+const RedEvatModel = require("./medical-forms-models/redEvatModel");
 
 const PatientModel = require("./patient-model/patientModel");
 
@@ -13,10 +11,8 @@ const QaModel = require("./staff-models/qaModel");
 const ResidentModel = require("./staff-models/residentModel");
 
 module.exports = {
-  MedicalResponseModel,
+  DailyFormModel,
   RedEvatModel,
-  RegisterComponentModel,
-  TrackingModel,
   PatientModel,
   RecordModel,
   DoctorModel,

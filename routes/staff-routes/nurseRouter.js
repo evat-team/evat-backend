@@ -1,5 +1,6 @@
 const express = require("express");
 const { nurseController } = require("../../controllers");
+const middlewares = require("../../middlewares");
 
 const nurseRouter = express.Router();
 
