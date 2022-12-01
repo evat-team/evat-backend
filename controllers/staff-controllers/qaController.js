@@ -1,12 +1,12 @@
-const QaModel = require("../../models");
-const { NotFoundError } = require("../../errors");
+const { qaService } = require("../../services");
 const { StatusCodes } = require("http-status-codes");
 
 const getAllQa = async (req, res) => {
-  const qas = await QaModel.find();
+  const qas = await qaService.returnAllQas();
 
   res.status(StatusCodes.OK).json({
     result: qas,
+    noResults: qas.length,
     success: "true",
   });
 };
@@ -14,11 +14,7 @@ const getAllQa = async (req, res) => {
 const getQa = async (req, res) => {
   const { id } = req.params;
 
-  const qa = QaModel.findById(id);
-
-  if (!qa) {
-    throw new NotFoundError("Qa was not founded");
-  }
+  const qa = await qaService.returnQaById(id);
 
   res.status(StatusCodes.OK).json({
     result: qa,
@@ -27,7 +23,7 @@ const getQa = async (req, res) => {
 };
 
 const addQa = async (req, res) => {
-  const newQa = await QaModel.create(...req.body);
+  const newQa = await qaService.createQa({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
     result: newQa,
@@ -38,10 +34,10 @@ const addQa = async (req, res) => {
 const deleteQa = async (req, res) => {
   const { id } = req.params;
 
-  await QaModel.findByIdAndRemove(id);
+  const qaRemoved = await qaService.deleteQaById(id);
 
-  res.status(StatusCodes.OK).json({
-    result: "Qa removed",
+  res.status(StatusCodes.ACCEPTED).json({
+    result: qaRemoved,
     success: "true",
   });
 };
@@ -49,14 +45,10 @@ const deleteQa = async (req, res) => {
 const updateQa = async (req, res) => {
   const { id } = req.params;
 
-  await QaModel.findByIdAndUpdate(
-    id,
-    { ...req.body },
-    { new: true, runValidators: true }
-  );
+  const qaUpdated = await qaService.updateQaById(id, { ...req.body });
 
-  res.status(StatusCodes.OK).json({
-    result: "deleted Qa",
+  res.status(StatusCodes.ACCEPTED).json({
+    result: qaUpdated,
     success: "true",
   });
 };

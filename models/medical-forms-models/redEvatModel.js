@@ -25,13 +25,13 @@ const redEvatSchema = mongoose.Schema(
         message: "{VALUE} is not valid",
       },
     },
-    fechaPrimerEvat: {
+    firstEvatDate: {
       type: Date,
       required: [true, "First evat date must be specified"],
     },
-    horaPrimerevat: {
+    firstEvatHour: {
       type: Number,
-      required: [true, ""],
+      required: [true, "First hour Evat is required"],
       min: [0, "{VALUE} is too low. it must be between [0 - 24]"],
       maxn: [24, "{VALUE} is too high. it must be between [0 - 24]"],
     },
@@ -66,7 +66,7 @@ const redEvatSchema = mongoose.Schema(
 
     /* Medical Response */
 
-    consultaUCI: {
+    consultUCI: {
       type: String,
       default: "No",
       required: [true, "consulta UCI is required"],
@@ -75,13 +75,13 @@ const redEvatSchema = mongoose.Schema(
         message: "{VALUE} is not valid",
       },
     },
-    horaConsulta: {
+    consultHour: {
       type: Number,
       required: [true, "Consult hour must be specified"],
       min: [0, "{VALUE} is too low. it must be between [0 - 24]"],
       max: [24, "{VALUE} is too high. it must be between [0 - 24]"],
     },
-    intervencion: {
+    intervention: {
       type: String,
       required: [true, "Type of intervention must be specified"],
       enum: {
@@ -89,14 +89,14 @@ const redEvatSchema = mongoose.Schema(
         message: "{VALUE} is not valid",
       },
     },
-    horaIntervencion: {
+    interventionHour: {
       type: Number,
       required: [true, "Intervention hour is required"],
       min: [0, "{VALUE} is too low. it must be between [0 - 24]"],
       max: [24, "{VALUE} is too high. it must be between [0 - 24]"],
     },
-    tipoIntervencion: { type: String },
-    duracionEvat: { type: Number },
+    interventionType: { type: String },
+    evatDuration: { type: Number },
 
     /* patient's tracking */
 

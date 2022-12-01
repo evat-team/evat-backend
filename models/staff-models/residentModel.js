@@ -4,12 +4,15 @@ const User = require("./userSchema");
 const ResidentSchema = mongoose.Schema({
   user: {
     type: User,
-    required: true,
+    required: [true, "User data is required"],
   },
   position: {
     type: String,
     required: [true, "position is required"],
-    enum: ["Residente R!", "Residente R2", "Residente R3"],
+    enum: {
+      values: ["R1", "R2", "R3"],
+      message: "{VALUE} is not valid",
+    },
   },
 });
 

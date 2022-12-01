@@ -5,8 +5,8 @@ const dailySchema = mongoose.Schema(
     hour: {
       type: Number,
       required: [true, "Hour must be specified"],
-      min: ["{VALUE} is too low. it must be between [0 - 24]"],
-      max: ["{VALUE} is too high. it must be between [0 - 24]"],
+      min: [0, "{VALUE} is too low. it must be between [0 - 24]"],
+      max: [24, "{VALUE} is too high. it must be between [0 - 24]"],
     },
     shift: {
       type: String,
@@ -87,3 +87,7 @@ dailySchema.pre("save", function (next) {
   }
   next();
 });
+
+const DailyFormModel = mongoose.model("DailyForm", dailySchema);
+
+module.exports = DailyFormModel;

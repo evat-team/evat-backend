@@ -1,22 +1,20 @@
 const { StatusCodes } = require("http-status-codes");
-const { NotFoundError } = require("../../errors");
-const DailyFormModel = require("../../models");
+const { dailyFormService } = require("../../services");
 
 const getAllDailyForms = async (req, res) => {
-  const dailyForms = await DailyFormModel.find();
+  const dailyForms = await dailyFormService.returnAllDailyForms();
 
   res.status(StatusCodes.OK).json({
     data: dailyForms,
+    noResults: dailyForms.length,
     sucess: "true",
   });
 };
 
 const getDailyForm = async (req, res) => {
-  const { id } = req.parmas;
+  const { id } = req.params;
 
-  const dailyForm = await DailyFormModel.findById(id);
-
-  if (!dailyForm) throw new NotFoundError("Daily form was not founded");
+  const dailyForm = await dailyFormService.returnDailyFormById(id);
 
   res.status(StatusCodes.OK).json({
     data: dailyForm,
@@ -25,7 +23,7 @@ const getDailyForm = async (req, res) => {
 };
 
 const addDailyForm = async (req, res) => {
-  const newDailyForm = await DailyFormModel.create({ ...req.body });
+  const newDailyForm = await dailyFormService.createDailyForm({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
     data: newDailyForm,
@@ -36,14 +34,9 @@ const addDailyForm = async (req, res) => {
 const updateDailyForm = async (req, res) => {
   const { id } = req.params;
 
-  const newDailyForm = await DailyFormModel.findByIdAndUpdate(
-    id,
-    { ...req.body },
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  const newDailyForm = await dailyFormService.updateDailyFormById(id, {
+    ...req.body,
+  });
 
   res.status(StatusCodes.OK).json({
     data: newDailyForm,
@@ -54,10 +47,10 @@ const updateDailyForm = async (req, res) => {
 const deleteDailyForm = async (req, res) => {
   const { id } = req.params;
 
-  await DailyFormModel.findByIdAndDelete(id);
+  const dailyFormDeleted = await dailyFormService.deleteDailyFormById(id);
 
   res.status(StatusCodes.OK).json({
-    data: "dailyForm deleted",
+    data: dailyFormDeleted,
     sucess: "true",
   });
 };

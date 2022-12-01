@@ -37,7 +37,7 @@ const updateDoctor = async (req, res) => {
     ...req.body,
   });
 
-  res.status(StatusCodes.OK).json({
+  res.status(StatusCodes.ACCEPTED).json({
     data: updatedDoctor,
     success: true,
   });
@@ -47,7 +47,7 @@ const deleteDoctor = async (req, res) => {
   const { id } = req.params;
   const deletedDoctor = await doctorService.deleteDoctorById(id);
 
-  res.status(StatusCodes.OK).json({
+  res.status(StatusCodes.ACCEPTED).json({
     data: deletedDoctor,
     success: true,
   });

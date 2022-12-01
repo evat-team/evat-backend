@@ -1,12 +1,12 @@
-const RedEvatModel = require("../../models");
 const { StatusCodes } = require("http-status-codes");
-const { NotFoundError } = require("../../errors");
+const { redEvatService } = require("../../services");
 
 const getAllRedEvats = async (req, res) => {
-  const redEvats = await RedEvatModel.find();
+  const redEvats = await redEvatService.returnAllRedEvats();
 
   res.status(StatusCodes.OK).json({
     result: redEvats,
+    noResults: redEvats.length,
     success: "true",
   });
 };
@@ -14,9 +14,7 @@ const getAllRedEvats = async (req, res) => {
 const getRedEvat = async (req, res) => {
   const { id } = req.params;
 
-  const redEvat = await RedEvatModel.findById(id);
-
-  if (!redEvat) throw new NotFoundError("Red evat not founded");
+  const redEvat = await redEvatService.returnRedEvatById(id);
 
   res.status(StatusCodes.OK).json({
     result: redEvat,
@@ -25,7 +23,7 @@ const getRedEvat = async (req, res) => {
 };
 
 const addRedEvat = async (req, res) => {
-  const redEvat = await RedEvatModel.create({ ...req.body });
+  const redEvat = await redEvatService.createRedEvat({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
     result: redEvat,
@@ -36,16 +34,11 @@ const addRedEvat = async (req, res) => {
 const updateRedEvat = async (req, res) => {
   const { id } = req.params;
 
-  const newRedEvat = await RedEvatModel.findByIdAndUpdate(
-    id,
-    { ...req.body },
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  const newRedEvat = await redEvatService.updateRedEvatById(id, {
+    ...req.body,
+  });
 
-  res.status(StatusCodes.OK).json({
+  res.status(StatusCodes.ACCEPTED).json({
     result: newRedEvat,
     success: "true",
   });
@@ -54,10 +47,10 @@ const updateRedEvat = async (req, res) => {
 const deleteRedEvat = async (req, res) => {
   const { id } = req.params;
 
-  await RedEvatModel.findByIdAndRemove(id);
+  const redEvatDeleted = await redEvatService.deleteRedEvatById(id);
 
-  res.status(StatusCodes.OK).json({
-    result: "RedEvat message",
+  res.status(StatusCodes.ACCEPTED).json({
+    result: redEvatDeleted,
     success: "true",
   });
 };
