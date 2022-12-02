@@ -1,31 +1,28 @@
-const { ResidentModel } = require("../../models");
 const { StatusCodes } = require("http-status-codes");
-const { NotFoundError } = require("../../errors");
+const { residentService } = require("../../services");
 
 const getAllResident = async (req, res) => {
-  const residents = await ResidentModel.find();
+  const residents = await residentService.returnAllResident();
 
-  res.json({
+  res.status(StatusCodes.OK).json({
     data: residents,
+    noResults: residents.length,
     success: "true",
   });
 };
 
 const getResident = async (req, res) => {
   const { id } = req.params;
-  const resident = await ResidentModel.findById(id);
+  const resident = await residentService.returnResidentById(id);
 
-  if (!resident) {
-    throw new NotFoundError("Residente no encontrado");
-  }
-  res.status(StatusCodes.ACCEPTED).json({
-    data: Resident,
+  res.status(StatusCodes.OK).json({
+    data: resident,
     success: "true",
   });
 };
 
 const addResident = async (req, res) => {
-  const newResident = await ResidentModel.create({ ...req.body });
+  const newResident = await residentService.createResident({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
     result: newResident,
@@ -36,21 +33,12 @@ const addResident = async (req, res) => {
 const updateResident = async (req, res) => {
   const { id } = req.params;
 
-  const ResidentUpdated = await ResidentModel.findByIDUpdate(
-    id,
-    { ...req.body },
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
-
-  if (!ResidentUpdated) {
-    throw new NotFoundError("Residente no encontrado");
-  }
+  const residentUpdated = await residentService.updateResidentById(id, {
+    ...req.body,
+  });
 
   res.status(StatusCodes.ACCEPTED).json({
-    data: ResidentUpdated,
+    data: residentUpdated,
     success: "true",
   });
 };
@@ -58,10 +46,10 @@ const updateResident = async (req, res) => {
 const deleteResident = async (req, res) => {
   const { id } = req.params;
 
-  await ResidentModel.findByIDAndRemove(id);
+  const residentRemoved = await residentService.removeResidentById(id);
 
   res.status(StatusCodes.ACCEPTED).json({
-    data: null,
+    data: residentRemoved,
     success: "true",
   });
 };

@@ -1,23 +1,19 @@
 require("express-async-errors");
 
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const router = require("./routes");
+const middlewares = require("./middlewares");
+const cors = require("cors");
 
 const app = express();
 
-const cookieParser = require("cookie-parser");
-const errorHandlerMiddleware = require("./middlewares/error-handler");
-
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/v1/medical-response", router.medicalResponseRouter);
+app.use("/api/v1/medical-daily-form", router.dailyFormRouter);
 app.use("/api/v1/red-evat", router.redEvatRouter);
-app.use(
-  "/api/v1/register-components-evat",
-  router.registerComponentsEvatRouter
-);
-app.use("/api/v1/tracking", router.trackingRouter);
 
 app.use("/api/v1/patient", router.patientRouter);
 
@@ -30,6 +26,7 @@ app.use("/api/v1/resident", router.residentRouter);
 
 app.use("/api/v1/login", router.authRouter);
 
-app.use(errorHandlerMiddleware);
+app.use(middlewares.notFoundMiddleware);
+app.use(middlewares.errorHandlerMiddleware);
 
 module.exports = app;

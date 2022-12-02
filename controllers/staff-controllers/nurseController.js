@@ -1,12 +1,12 @@
-const { NurseModel } = require("../../models");
 const { StatusCodes } = require("http-status-codes");
-const { NotFoundError } = require("../../errors");
+const { nurseService } = require("../../services");
 
 const getAllNurses = async (req, res) => {
-  const nurses = await NurseModel.find();
+  const nurses = await nurseService.returnAllNurses();
 
   res.status(StatusCodes.ACCEPTED).json({
     data: nurses,
+    noResults: nurses.length,
     success: "true",
   });
 };
@@ -14,11 +14,7 @@ const getAllNurses = async (req, res) => {
 const getNurse = async (req, res) => {
   const { id } = req.params;
 
-  const nurse = await NurseModel.findById(id);
-
-  if (!nurse) {
-    throw new NotFoundError("Enfermera no encontrada");
-  }
+  const nurse = await nurseService.returnNurseById(id);
 
   res.status(StatusCodes.ACCEPTED).json({
     data: nurse,
@@ -27,10 +23,10 @@ const getNurse = async (req, res) => {
 };
 
 const addNurse = async (req, res) => {
-  const newNurse = await NurseModel.create({ ...req.body });
+  const newNurse = await nurseService.createNurse({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
-    result: newNurse,
+    data: newNurse,
     success: "true",
   });
 };
@@ -38,18 +34,7 @@ const addNurse = async (req, res) => {
 const updateNurse = async (req, res) => {
   const { id } = req.params;
 
-  const nurseUpdated = await NurseModel.findByIdAndUpdate(
-    id,
-    { ...req.body },
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
-
-  if (!nurseUpdated) {
-    throw new NotFoundError("Enfermera no encontrada");
-  }
+  const nurseUpdated = await nurseService.updateNurseById(id, { ...req.body });
 
   res.status(StatusCodes.ACCEPTED).json({
     data: nurseUpdated,
@@ -60,10 +45,10 @@ const updateNurse = async (req, res) => {
 const deleteNurse = async (req, res) => {
   const { id } = req.params;
 
-  await NurseModel.findByIdAndRemove(id);
+  const nurseDeleted = await nurseService.deleteNurseById(id);
 
   res.status(StatusCodes.ACCEPTED).json({
-    data: null,
+    data: nurseDeleted,
     success: "true",
   });
 };

@@ -1,7 +1,5 @@
-const medicalResponseRouter = require("./evat-rojo-routes/medicalResponseRouter");
-const redEvatRouter = require("./evat-rojo-routes/redEvatRouter");
-const registerComponentsEvatRouter = require("./evat-rojo-routes/registerComponentsEvatRouter");
-const trackingRouter = require("./evat-rojo-routes/trackingRouter");
+const dailyFormRouter = require("./medical-forms-routes/daily-form-router");
+const redEvatRouter = require("./medical-forms-routes/redEvatRouter");
 
 const recordRouter = require("./record-routes/recordRouter");
 
@@ -15,10 +13,8 @@ const residentRouter = require("./staff-routes/residentRouter");
 const authRouter = require("./user-auth-routes/authRoutes");
 
 module.exports = {
-  medicalResponseRouter,
+  dailyFormRouter,
   redEvatRouter,
-  registerComponentsEvatRouter,
-  trackingRouter,
   recordRouter,
   patientRouter,
   doctorRouter,
