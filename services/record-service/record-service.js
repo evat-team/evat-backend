@@ -11,7 +11,7 @@ const returnRecordById = async (id) => {
   const record = await RecordModel.findById(id);
 
   if (!record) {
-    throw new NotFoundError("Record not founded");
+    throw new NotFoundError("Record was not found");
   }
 
   return record;
@@ -27,7 +27,7 @@ const deleteRecordById = async (id) => {
   const recordDeleted = RecordModel.findByIdAndRemove(id);
 
   if (!recordDeleted) {
-    throw new NotFoundError("Record not founded");
+    throw new NotFoundError("Record was not found");
   }
 
   return recordDeleted;

@@ -4,7 +4,7 @@ const User = require("./userSchema");
 const NurseSchema = mongoose.Schema({
   user: {
     type: User,
-    required: true,
+    required: [true, "User data is required"],
   },
   position: {
     type: String,

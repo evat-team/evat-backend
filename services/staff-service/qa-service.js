@@ -11,7 +11,7 @@ const returnQaById = async (id) => {
   const qa = await QaModel.findById(id);
 
   if (!qa) {
-    throw new NotFoundError("Qa was not founded");
+    throw new NotFoundError("Qa was not found");
   }
 
   return qa;
@@ -27,7 +27,7 @@ const deleteQaById = async (id) => {
   const qaRemoved = await QaModel.findByIdAndRemove(id);
 
   if (!qaRemoved) {
-    throw new NotFoundError("Qa was not founded");
+    throw new NotFoundError("Qa was not found");
   }
 
   return qaRemoved;
@@ -41,7 +41,7 @@ const updateQaById = async (id, newUserData) => {
   );
 
   if (!qaUpdated) {
-    throw new NotFoundError("Qa was not founded");
+    throw new NotFoundError("Qa was not found");
   }
 
   return qaUpdated;

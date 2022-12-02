@@ -11,7 +11,7 @@ const returnResidentById = async (id) => {
   const resident = await ResidentModel.findById(id);
 
   if (!resident) {
-    throw new NotFoundError("Residente no encontrado");
+    throw new NotFoundError("Resident was not found");
   }
 
   return resident;
@@ -34,7 +34,7 @@ const updateResidentById = async (id, newUserData) => {
   );
 
   if (!residentUpdated) {
-    throw new NotFoundError("Residente was not founded");
+    throw new NotFoundError("Resident was not found");
   }
 
   return residentUpdated;
@@ -44,7 +44,7 @@ const removeResidentById = async (id) => {
   const removedResident = await ResidentModel.findByIdAndRemove(id);
 
   if (!removedResident) {
-    throw new NotFoundError("Resident was not founded");
+    throw new NotFoundError("Resident was not found");
   }
 
   return removedResident;

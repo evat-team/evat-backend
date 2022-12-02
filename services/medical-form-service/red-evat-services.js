@@ -11,7 +11,7 @@ const returnRedEvatById = async (id) => {
   const redEvat = await RedEvatModel.findById(id);
 
   if (!redEvat) {
-    throw new NotFoundError("Red evat not founded");
+    throw new NotFoundError("Red Evat form was not found");
   }
 
   return redEvat;
@@ -34,7 +34,7 @@ const updateRedEvatById = async (id, newEvatForm) => {
   );
 
   if (!newRedEvat) {
-    throw new NotFoundError("Evat Form was not founded");
+    throw new NotFoundError("Red Evat Form was not found");
   }
 
   return newRedEvat;
@@ -44,7 +44,7 @@ const deleteRedEvatById = async (id) => {
   const redEvatRemoved = await RedEvatModel.findByIdAndRemove(id);
 
   if (!redEvatRemoved) {
-    throw new NotFoundError("Red Evat was not founded");
+    throw new NotFoundError("Red Evat Form was not found");
   }
 
   return redEvatRemoved;

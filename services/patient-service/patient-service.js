@@ -10,7 +10,7 @@ const returnPatient = async (id) => {
   const patient = await PatientModel.findById(id);
 
   if (!patient) {
-    throw new NotFoundError("patient not founded");
+    throw new NotFoundError("Patient was not found");
   }
 
   return patient;
@@ -29,7 +29,7 @@ const updatePatientById = async (id, userInfo) => {
   );
 
   if (!updatedPatient) {
-    throw new NotFoundError("Patient not founded");
+    throw new NotFoundError("Patient was not found");
   }
 
   return updatedPatient;
@@ -39,7 +39,7 @@ const deletePatientById = async (id) => {
   const patientDeleted = await PatientModel.findByIdAndRemove(id);
 
   if (!patientDeleted) {
-    throw new NotFoundError("Patient not founded");
+    throw new NotFoundError("Patient was not found");
   }
 
   return patientDeleted;

@@ -11,7 +11,7 @@ const returnDailyFormById = async (id) => {
   const dailyForm = await DailyFormModel.findById(id);
 
   if (!dailyForm) {
-    throw new NotFoundError("Daily form was not founded");
+    throw new NotFoundError("Daily Form was not found");
   }
 
   return dailyForm;
@@ -34,7 +34,7 @@ const updateDailyFormById = async (id, newDailyFormInfo) => {
   );
 
   if (!newDailyForm) {
-    throw new NotFoundError("Daily was not founded");
+    throw new NotFoundError("Daily Form was not found");
   }
 
   return newDailyForm;
@@ -44,7 +44,7 @@ const deleteDailyFormById = async (id) => {
   const dailyFormRemoved = await DailyFormModel.findByIdAndDelete(id);
 
   if (!dailyFormRemoved) {
-    throw new NotFoundError("Daily form was not founded");
+    throw new NotFoundError("Daily form was not found");
   }
 
   return dailyFormRemoved;

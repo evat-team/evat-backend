@@ -8,7 +8,7 @@ const ResidentSchema = mongoose.Schema({
   },
   position: {
     type: String,
-    required: [true, "position is required"],
+    required: [true, "Position is required"],
     enum: {
       values: ["R1", "R2", "R3"],
       message: "{VALUE} is not valid",

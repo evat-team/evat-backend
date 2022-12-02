@@ -7,14 +7,15 @@ const login = async ({ email, password }) => {
     throw new BadRequestError("Please provide an email and password");
   }
 
-  const loggedUser =
-    (await Models.NurseModel.findOne({ "user.email": email })) ||
-    (await Models.DoctorModel.findOne({ "user.email": email })) ||
-    (await Models.ResidentModel.findOne({ "user.email": email })) ||
-    (await Models.QaModel.findOne({ "user.email": email }));
+  const loggedUser = await Promise.any([
+    await Models.NurseModel.findOne({ "user.email": email }),
+    await Models.DoctorModel.findOne({ "user.email": email }),
+    await Models.ResidentModel.findOne({ "user.email": email }),
+    await Models.QaModel.findOne({ "user.email": email }),
+  ]);
 
   if (!loggedUser) {
-    throw new NotFoundError("Email was not founded");
+    throw new NotFoundError("Email was not found");
   }
 
   const result = await bcrypt.compare(password, loggedUser.user.password);

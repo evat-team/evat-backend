@@ -1,4 +1,4 @@
-const { BadRequestError, FordibbenError } = require("../errors");
+const { BadRequestError, ForbiddenError } = require("../errors");
 const { StatusCodes } = require("http-status-codes");
 
 const errorHandlerMiddleware = (err, req, res, next) => {
@@ -26,7 +26,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   }
 
   if (err.name && err.name === "JsonWebTokenError") {
-    error = new FordibbenError("Token is invalid, please login");
+    error = new ForbiddenError("Token is invalid, please login");
   }
 
   return res.status(error.statusCode).json({
