@@ -170,30 +170,30 @@ const redEvatSchema = mongoose.Schema(
       ],
       get: (hour) => `${hour}:00`,
     },
-    traslate: {
+    translate: {
       type: String,
-      required: [true, "Traslate is required"],
+      required: [true, "Translate is required"],
       default: "No",
       enum: {
         values: ["Si", "No"],
         message:
-          "Value provided for traslate is not valid. It must be 'Si' or 'No'",
+          "Value provided for translate is not valid. It must be 'Si' or 'No'",
       },
     },
-    traslateDate: {
+    translateDate: {
       type: Date,
-      required: [true, "Traslate date is required"],
+      required: [true, "Translate date is required"],
     },
-    traslateHour: {
+    translateHour: {
       type: Number,
-      required: [true, "Traslate hour is required"],
+      required: [true, "Translate hour is required"],
       min: [
         0,
-        "Value provided for Traslate hour is too low. It must be between [0 - 23]",
+        "Value provided for Translate hour is too low. It must be between [0 - 23]",
       ],
       max: [
         23,
-        "Value provided for Traslate hour is too high. It must be between [0 - 23]",
+        "Value provided for Translate hour is too high. It must be between [0 - 23]",
       ],
     },
     residence: {
