@@ -1,59 +1,55 @@
 const { RedEvatModel } = require("../../models");
 const { NotFoundError } = require("../../errors");
 
-const returnAllRedEvats = async () => {
-  const redEvats = await RedEvatModel.find();
+class RedEvatService {
+  async returnAllRedEvats() {
+    const redEvats = await RedEvatModel.find();
 
-  return redEvats;
-};
-
-const returnRedEvatById = async (id) => {
-  const redEvat = await RedEvatModel.findById(id);
-
-  if (!redEvat) {
-    throw new NotFoundError("Red Evat form was not found");
+    return redEvats;
   }
 
-  return redEvat;
-};
+  async returnRedEvatById(id) {
+    const redEvat = await RedEvatModel.findById(id);
 
-const createRedEvat = async (evatForm) => {
-  const redEvat = await RedEvatModel.create({ ...evatForm });
-
-  return redEvat;
-};
-
-const updateRedEvatById = async (id, newEvatForm) => {
-  const newRedEvat = await RedEvatModel.findByIdAndUpdate(
-    id,
-    { ...newEvatForm },
-    {
-      new: true,
-      runValidators: true,
+    if (!redEvat) {
+      throw new NotFoundError("Red Evat form was not found");
     }
-  );
 
-  if (!newRedEvat) {
-    throw new NotFoundError("Red Evat Form was not found");
+    return redEvat;
   }
 
-  return newRedEvat;
-};
+  async createRedEvat(evatForm) {
+    const redEvat = await RedEvatModel.create({ ...evatForm });
 
-const deleteRedEvatById = async (id) => {
-  const redEvatRemoved = await RedEvatModel.findByIdAndRemove(id);
-
-  if (!redEvatRemoved) {
-    throw new NotFoundError("Red Evat Form was not found");
+    return redEvat;
   }
 
-  return redEvatRemoved;
-};
+  async updateRedEvatById(id, newEvatForm) {
+    const newRedEvat = await RedEvatModel.findByIdAndUpdate(
+      id,
+      { ...newEvatForm },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-module.exports = {
-  returnAllRedEvats,
-  returnRedEvatById,
-  createRedEvat,
-  updateRedEvatById,
-  deleteRedEvatById,
-};
+    if (!newRedEvat) {
+      throw new NotFoundError("Red Evat Form was not found");
+    }
+
+    return newRedEvat;
+  }
+
+  async deleteRedEvatById(id) {
+    const redEvatRemoved = await RedEvatModel.findByIdAndRemove(id);
+
+    if (!redEvatRemoved) {
+      throw new NotFoundError("Red Evat Form was not found");
+    }
+
+    return redEvatRemoved;
+  }
+}
+
+module.exports = new RedEvatService();

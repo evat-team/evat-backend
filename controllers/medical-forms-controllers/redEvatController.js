@@ -1,8 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
-const { redEvatService } = require("../../services");
+const { RedEvatService } = require("../../services");
 
 const getAllRedEvats = async (req, res) => {
-  const redEvats = await redEvatService.returnAllRedEvats();
+  const redEvats = await RedEvatService.returnAllRedEvats();
 
   res.status(StatusCodes.OK).json({
     result: redEvats,
@@ -14,7 +14,7 @@ const getAllRedEvats = async (req, res) => {
 const getRedEvat = async (req, res) => {
   const { id } = req.params;
 
-  const redEvat = await redEvatService.returnRedEvatById(id);
+  const redEvat = await RedEvatService.returnRedEvatById(id);
 
   res.status(StatusCodes.OK).json({
     result: redEvat,
@@ -23,7 +23,7 @@ const getRedEvat = async (req, res) => {
 };
 
 const addRedEvat = async (req, res) => {
-  const redEvat = await redEvatService.createRedEvat({ ...req.body });
+  const redEvat = await RedEvatService.createRedEvat({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
     result: redEvat,
@@ -34,7 +34,7 @@ const addRedEvat = async (req, res) => {
 const updateRedEvat = async (req, res) => {
   const { id } = req.params;
 
-  const newRedEvat = await redEvatService.updateRedEvatById(id, {
+  const newRedEvat = await RedEvatService.updateRedEvatById(id, {
     ...req.body,
   });
 
@@ -47,7 +47,7 @@ const updateRedEvat = async (req, res) => {
 const deleteRedEvat = async (req, res) => {
   const { id } = req.params;
 
-  const redEvatDeleted = await redEvatService.deleteRedEvatById(id);
+  const redEvatDeleted = await RedEvatService.deleteRedEvatById(id);
 
   res.status(StatusCodes.ACCEPTED).json({
     result: redEvatDeleted,

@@ -7,26 +7,30 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
   };
 
-  if (err.code && err.code === 11000) {
-    error = new BadRequestError(
-      `Value ${Object.values(err.keyValue)} must be unique`
-    );
-  }
+  switch (true) {
+    case err.code && err.code === 11000:
+      error = new BadRequestError(
+        `${Object.values(err.keyValue)} must be unique`
+      );
+      break;
 
-  if (err.name && err.name === "ValidationError") {
-    error = new BadRequestError(
-      `${Object.values(err.errors)
-        .map((err) => err.message)
-        .join(", ")}`
-    );
-  }
+    case err.name && err.name === "ValidationError":
+      error = new BadRequestError(
+        `${Object.values(err.errors)
+          .map((err) => err.message)
+          .join(", ")}`
+      );
+      break;
 
-  if (err.name && err.name === "CastError") {
-    error = new BadRequestError("Value not accepted");
-  }
+    case err.name && err.name === "CastError":
+      error = new BadRequestError(
+        "Data sent in the request is not valid. Please send correct data"
+      );
+      break;
 
-  if (err.name && err.name === "JsonWebTokenError") {
-    error = new ForbiddenError("Token is invalid, please login");
+    case err.name && err.name === "JsonWebTokenError":
+      error = new ForbiddenError("Token is invalid, please login");
+      break;
   }
 
   return res.status(error.statusCode).json({

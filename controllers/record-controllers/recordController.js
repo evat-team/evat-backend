@@ -1,8 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
-const { recordService } = require("../../services");
+const { RecordService } = require("../../services");
 
 const getAllRecords = async (req, res) => {
-  const records = await recordService.returnAllRecords();
+  const records = await RecordService.returnAllRecords();
 
   res.status(StatusCodes.OK).json({
     result: records,
@@ -14,7 +14,7 @@ const getAllRecords = async (req, res) => {
 const getRecord = async (req, res) => {
   const { id } = req.params;
 
-  const record = await recordService.returnRecordById(id);
+  const record = await RecordService.returnRecordById(id);
 
   res.status(StatusCodes.OK).json({
     result: record,
@@ -23,7 +23,7 @@ const getRecord = async (req, res) => {
 };
 
 const addRecord = async (req, res) => {
-  const newRecord = await recordService.createRecord({ ...req.body });
+  const newRecord = await RecordService.createRecord({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
     result: newRecord,
@@ -41,7 +41,7 @@ const updateRecord = async (req, res) => {
 const deleteRecord = async (req, res) => {
   const { id } = req.params;
 
-  const recordDeleted = await recordService.deleteRecordById(id);
+  const recordDeleted = await RecordService.deleteRecordById(id);
 
   res.status(StatusCodes.ACCEPTED).json({
     result: recordDeleted,

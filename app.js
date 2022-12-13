@@ -19,12 +19,9 @@ app.use("/api/v1/patient", router.patientRouter);
 
 app.use("/api/v1/record", router.recordRouter);
 
-app.use("/api/v1/doctor", router.doctorRouter);
-app.use("/api/v1/nurse", router.nurseRouter);
-app.use("/api/v1/qa", router.qaRouter);
-app.use("/api/v1/resident", router.residentRouter);
+app.use("/api/v1/employee", router.employeeRouter);
 
-app.use("/api/v1/login", router.authRouter);
+app.use("/api/v1/auth", router.authRouter);
 
 app.use(middlewares.notFoundMiddleware);
 app.use(middlewares.errorHandlerMiddleware);

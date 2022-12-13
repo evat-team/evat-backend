@@ -1,11 +1,11 @@
-const { authService } = require("../../services");
+const { AuthService } = require("../../services");
 const { StatusCodes } = require("http-status-codes");
 const createToken = require("../../utils/create-token");
 
-const loginController = async (req, res) => {
+const sign_in = async (req, res) => {
   const { email, password } = req.body;
 
-  const loggedUser = await authService.login({ email, password });
+  const loggedUser = await AuthService.singIn(email, password);
   const token = createToken({ ...loggedUser });
 
   res
@@ -17,4 +17,4 @@ const loginController = async (req, res) => {
     });
 };
 
-module.exports = { loginController };
+module.exports = { sign_in };

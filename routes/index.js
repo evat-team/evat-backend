@@ -5,10 +5,7 @@ const recordRouter = require("./record-routes/recordRouter");
 
 const patientRouter = require("./patient-routes/patientRouter");
 
-const doctorRouter = require("./staff-routes/doctorRouter");
-const nurseRouter = require("./staff-routes/nurseRouter");
-const qaRouter = require("./staff-routes/qaRouter");
-const residentRouter = require("./staff-routes/residentRouter");
+const employeeRouter = require("./staff-routes/employeeRouter");
 
 const authRouter = require("./user-auth-routes/authRoutes");
 
@@ -17,9 +14,6 @@ module.exports = {
   redEvatRouter,
   recordRouter,
   patientRouter,
-  doctorRouter,
-  nurseRouter,
-  qaRouter,
-  residentRouter,
   authRouter,
+  employeeRouter,
 };
