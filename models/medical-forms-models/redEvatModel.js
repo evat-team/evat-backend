@@ -22,7 +22,8 @@ const redEvatSchema = mongoose.Schema(
           "Noviembre",
           "Diciembre",
         ],
-        message: "Value provided for month. Please provide a correct month",
+        message:
+          "Value provided for Month is invalid. Please provide a correct month",
       },
     },
     firstEvatDate: {
@@ -34,11 +35,11 @@ const redEvatSchema = mongoose.Schema(
       required: [true, "First hour Evat is required"],
       min: [
         0,
-        "Value provided for first evat hour is too low. it must be between [0 - 24]",
+        "Value provided for First Evat hour is too low. It must be between [0 - 24]",
       ],
       max: [
         23,
-        "Value provided for first evat hour is too high. it must be between [0 - 24]",
+        "Value provided for First Evat hour is too high. It must be between [0 - 24]",
       ],
       get: (hour) => `${hour}:00`,
     },
@@ -92,11 +93,11 @@ const redEvatSchema = mongoose.Schema(
       required: [true, "Consult hour must be specified"],
       min: [
         0,
-        "Value provided for consult hour is too low. it must be between [0 - 23]",
+        "Value provided for consult hour is too low. It must be between [0 - 23]",
       ],
       max: [
         23,
-        "Value provided for consult hour is too high. it must be between [0 - 23]",
+        "Value provided for consult hour is too high. It must be between [0 - 23]",
       ],
       get: (hour) => `${hour}:00`,
     },
@@ -114,11 +115,11 @@ const redEvatSchema = mongoose.Schema(
       required: [true, "Intervention hour is required"],
       min: [
         0,
-        "Value provided for Intervention hour is too low. it must be between [0 - 23]",
+        "Value provided for Intervention hour is too low. It must be between [0 - 23]",
       ],
       max: [
         24,
-        "Value provided is for Intervention hour too high. it must be between [0 - 23]",
+        "Value provided is for Intervention hour too high. It must be between [0 - 23]",
       ],
       get: (hour) => `${hour}:00`,
     },
@@ -161,11 +162,11 @@ const redEvatSchema = mongoose.Schema(
       required: [true, "Event hour is required"],
       min: [
         0,
-        "Value provided for Event hour is too low. it must be between [0 - 23]",
+        "Value provided for Event hour is too low. It must be between [0 - 23]",
       ],
       max: [
         24,
-        "Value provided for Event hour is too high. it must be between [0 - 23]",
+        "Value provided for Event hour is too high. It must be between [0 - 23]",
       ],
       get: (hour) => `${hour}:00`,
     },
@@ -188,11 +189,11 @@ const redEvatSchema = mongoose.Schema(
       required: [true, "Traslate hour is required"],
       min: [
         0,
-        "Value provided for Traslate hour is too low. it must be between [0 - 23]",
+        "Value provided for Traslate hour is too low. It must be between [0 - 23]",
       ],
       max: [
         23,
-        "Value provided for Traslate hour is too high. it must be between [0 - 23]",
+        "Value provided for Traslate hour is too high. It must be between [0 - 23]",
       ],
     },
     residence: {

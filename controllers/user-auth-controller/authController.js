@@ -2,7 +2,7 @@ const { AuthService } = require("../../services");
 const { StatusCodes } = require("http-status-codes");
 const createToken = require("../../utils/create-token");
 
-const sign_in = async (req, res) => {
+const signIn = async (req, res) => {
   const { email, password } = req.body;
 
   const loggedUser = await AuthService.singIn(email, password);
@@ -17,4 +17,4 @@ const sign_in = async (req, res) => {
     });
 };
 
-module.exports = { sign_in };
+module.exports = { signIn };

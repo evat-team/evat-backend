@@ -7,11 +7,11 @@ const dailySchema = mongoose.Schema(
       required: [true, "Hour must be specified"],
       min: [
         0,
-        "Value provided for Hour is too low. it must be between [0 - 24]",
+        "Value provided for Hour is too low. It must be between [0 - 24]",
       ],
       max: [
         24,
-        "Value provided for Hour is too high. it must be between [0 - 24]",
+        "Value provided for Hour is too high. It must be between [0 - 24]",
       ],
     },
     shift: {
@@ -69,7 +69,7 @@ const dailySchema = mongoose.Schema(
     },
     ltsO2: {
       type: Number,
-      required: [true, "lts of O2 is required"],
+      required: [true, "Lts of O2 is required"],
       min: [0, "Value provided for Lts O2 is too low"],
       max: [500, "Value provided for Lts O2 is too high"],
     },
