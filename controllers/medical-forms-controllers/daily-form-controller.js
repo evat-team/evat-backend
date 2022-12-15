@@ -1,8 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
-const { dailyFormService } = require("../../services");
+const { DailyFormService } = require("../../services");
 
 const getAllDailyForms = async (req, res) => {
-  const dailyForms = await dailyFormService.returnAllDailyForms();
+  const dailyForms = await DailyFormService.returnAllDailyForm();
 
   res.status(StatusCodes.OK).json({
     data: dailyForms,
@@ -14,7 +14,7 @@ const getAllDailyForms = async (req, res) => {
 const getDailyForm = async (req, res) => {
   const { id } = req.params;
 
-  const dailyForm = await dailyFormService.returnDailyFormById(id);
+  const dailyForm = await DailyFormService.returnDailyFormById(id);
 
   res.status(StatusCodes.OK).json({
     data: dailyForm,
@@ -23,7 +23,7 @@ const getDailyForm = async (req, res) => {
 };
 
 const addDailyForm = async (req, res) => {
-  const newDailyForm = await dailyFormService.createDailyForm({ ...req.body });
+  const newDailyForm = await DailyFormService.createDailyForm({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
     data: newDailyForm,
@@ -34,7 +34,7 @@ const addDailyForm = async (req, res) => {
 const updateDailyForm = async (req, res) => {
   const { id } = req.params;
 
-  const newDailyForm = await dailyFormService.updateDailyFormById(id, {
+  const newDailyForm = await DailyFormService.updateDailyFormById(id, {
     ...req.body,
   });
 
@@ -47,7 +47,7 @@ const updateDailyForm = async (req, res) => {
 const deleteDailyForm = async (req, res) => {
   const { id } = req.params;
 
-  const dailyFormDeleted = await dailyFormService.deleteDailyFormById(id);
+  const dailyFormDeleted = await DailyFormService.deleteDailyFormById(id);
 
   res.status(StatusCodes.OK).json({
     data: dailyFormDeleted,

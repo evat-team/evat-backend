@@ -1,25 +1,19 @@
-const dailyFormService = require("./medical-form-service/daily-form-service");
-const redEvatService = require("./medical-form-service/red-evat-services");
+const DailyFormService = require("./medical-form-service/daily-form-service");
+const RedEvatService = require("./medical-form-service/red-evat-services");
 
-const recordService = require("./record-service/record-service");
+const RecordService = require("./record-service/record-service");
 
-const patientService = require("./patient-service/patient-service");
+const PatientService = require("./patient-service/patient-service");
 
-const doctorService = require("./staff-service/doctor-service");
-const nurseService = require("./staff-service/nurse-service");
-const residentService = require("./staff-service/resident-service");
-const qaService = require("./staff-service/qa-service");
+const EmployeeService = require("./staff-service/employee-service");
 
-const authService = require("./user-auth-service/auth-services");
+const AuthService = require("./user-auth-service/auth-services");
 
 module.exports = {
-  patientService,
-  doctorService,
-  nurseService,
-  residentService,
-  qaService,
-  authService,
-  recordService,
-  dailyFormService,
-  redEvatService,
+  PatientService,
+  AuthService,
+  RecordService,
+  DailyFormService,
+  RedEvatService,
+  EmployeeService,
 };

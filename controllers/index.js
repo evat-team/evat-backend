@@ -5,21 +5,15 @@ const patientController = require("./patient-controller/patientController");
 
 const recordController = require("./record-controllers/recordController");
 
-const doctorController = require("./staff-controllers/doctorController");
-const nurseController = require("./staff-controllers/nurseController");
-const qaController = require("./staff-controllers/qaController");
-const residentController = require("./staff-controllers/residentController");
+const employeeController = require("./staff-controllers/EmployeeController");
 
-const userAuthController = require("./user-auth-controller/login");
+const userAuthController = require("./user-auth-controller/authController");
 
 module.exports = {
   dailyFormController,
   redEvatController,
   patientController,
   recordController,
-  doctorController,
-  nurseController,
-  qaController,
-  residentController,
   userAuthController,
+  employeeController,
 };

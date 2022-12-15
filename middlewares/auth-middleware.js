@@ -1,7 +1,7 @@
 const utils = require("node:util");
 const jwt = require("jsonwebtoken");
 const { NotAuthenticatedError } = require("../errors");
-const Models = require("./../models");
+const { EmployeeService } = require("./../services");
 
 const authMiddleware = async (req, res, next) => {
   const { jwt: token } = req.cookies;
@@ -15,12 +15,9 @@ const authMiddleware = async (req, res, next) => {
     process.env.JWT_SECRET
   );
 
-  const user = await Promise.any([
-    await Models.NurseModel.findById(payload._id),
-    await Models.DoctorModel.findById(payload._id),
-    await Models.ResidentModel.findById(payload._id),
-    await Models.QaModel.findById(payload._id),
-  ]);
+  const { _id: id } = payload;
+
+  const user = await EmployeeService.returnSingleEmployee(id);
 
   if (!user) {
     throw new NotAuthenticatedError("User no longer exists");

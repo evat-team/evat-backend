@@ -1,59 +1,55 @@
 const { NotFoundError } = require("../../errors");
 const { DailyFormModel } = require("../../models");
 
-const returnAllDailyForms = async () => {
-  const dailyForms = await DailyFormModel.find();
+class DailyFormService {
+  async returnAllDailyForm() {
+    const dailyForms = await DailyFormModel.find();
 
-  return dailyForms;
-};
-
-const returnDailyFormById = async (id) => {
-  const dailyForm = await DailyFormModel.findById(id);
-
-  if (!dailyForm) {
-    throw new NotFoundError("Daily Form was not found");
+    return dailyForms;
   }
 
-  return dailyForm;
-};
+  async returnDailyFormById(id) {
+    const dailyForm = await DailyFormModel.findById(id);
 
-const createDailyForm = async (newForm) => {
-  const newDailyForm = await DailyFormModel.create({ ...newForm });
-
-  return newDailyForm;
-};
-
-const updateDailyFormById = async (id, newDailyFormInfo) => {
-  const newDailyForm = await DailyFormModel.findByIdAndUpdate(
-    id,
-    { ...newDailyFormInfo },
-    {
-      new: true,
-      runValidators: true,
+    if (!dailyForm) {
+      throw new NotFoundError("Daily Form was not found");
     }
-  );
 
-  if (!newDailyForm) {
-    throw new NotFoundError("Daily Form was not found");
+    return dailyForm;
   }
 
-  return newDailyForm;
-};
+  async createDailyForm(newForm) {
+    const newDailyForm = await DailyFormModel.create({ ...newForm });
 
-const deleteDailyFormById = async (id) => {
-  const dailyFormRemoved = await DailyFormModel.findByIdAndDelete(id);
-
-  if (!dailyFormRemoved) {
-    throw new NotFoundError("Daily form was not found");
+    return newDailyForm;
   }
 
-  return dailyFormRemoved;
-};
+  async updateDailyFormById(id, newDailyFormInfo) {
+    const newDailyForm = await DailyFormModel.findByIdAndUpdate(
+      id,
+      { ...newDailyFormInfo },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-module.exports = {
-  returnAllDailyForms,
-  returnDailyFormById,
-  createDailyForm,
-  updateDailyFormById,
-  deleteDailyFormById,
-};
+    if (!newDailyForm) {
+      throw new NotFoundError("Daily Form was not found");
+    }
+
+    return newDailyForm;
+  }
+
+  async deleteDailyFormById(id) {
+    const dailyFormRemoved = await DailyFormModel.findByIdAndDelete(id);
+
+    if (!dailyFormRemoved) {
+      throw new NotFoundError("Daily form was not found");
+    }
+
+    return dailyFormRemoved;
+  }
+}
+
+module.exports = new DailyFormService();

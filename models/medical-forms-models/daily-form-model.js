@@ -5,58 +5,93 @@ const dailySchema = mongoose.Schema(
     hour: {
       type: Number,
       required: [true, "Hour must be specified"],
-      min: [0, "{VALUE} is too low. it must be between [0 - 24]"],
-      max: [24, "{VALUE} is too high. it must be between [0 - 24]"],
+      min: [
+        0,
+        "Value provided for Hour is too low. It must be between [0 - 24]",
+      ],
+      max: [
+        24,
+        "Value provided for Hour is too high. It must be between [0 - 24]",
+      ],
     },
     shift: {
       type: String,
       enum: {
         values: ["TM", "TV", "TN"],
-        message: "{VALUE} is not a valid value",
+        message:
+          "Value provided for shift is not valid. It must be one of the next values [TM, TV, TN]",
       },
     },
     temperature: {
-      type: Number,
+      type: String,
       required: [true, "Temperature is required"],
       enum: {
-        values: [39.5, 39, 38.5, 38, 37.5, 37, 36.5, 36, 35.5, 35],
-        message: "{VALUE} is invalid",
+        values: [
+          "39.5>",
+          "39.5",
+          "39",
+          "38.5",
+          "38",
+          "37.5",
+          "37",
+          "36.5",
+          "36",
+          "35.5",
+          "35",
+        ],
+        message:
+          "Temperature provided is invalid. Temperature must be between [ 39.5-35 ]",
       },
     },
     bloodPressure: {
       type: Number,
       required: [true, "Blood pressure is required"],
+      min: [0, "Value provided for Blood pressure is too low"],
+      max: [500, "Value provided for Blood pressure is too high"],
     },
     FC: {
       type: Number,
       required: [true, "FC is required"],
+      min: [0, "Value provided for FC is too low"],
+      max: [500, "Value provided for FC is too high"],
     },
     FR: {
       type: Number,
       required: [true, "FR is required"],
+      min: [0, "Value provided for FR is too low"],
+      max: [500, "Value provided for FR is too high"],
     },
     SO2: {
       type: Number,
       required: [true, "SO2 is required"],
+      min: [0, "Value provided for SO2 is too low"],
+      max: [500, "Value provided for SO2 is too high"],
     },
     ltsO2: {
       type: Number,
-      required: [true, "lts of O2 is required"],
+      required: [true, "Lts of O2 is required"],
+      min: [0, "Value provided for Lts O2 is too low"],
+      max: [500, "Value provided for Lts O2 is too high"],
     },
     pain: {
       type: Number,
       required: [true, "Pain is required"],
+      min: [0, "Value provided for Pain is too low"],
+      max: [500, "Value provided for Pain is too high"],
     },
     capillaryRefill: {
       type: Number,
-      required: [true, "capillary refill is required"],
+      required: [true, "Capillary refill is required"],
+      min: [0, "Value provided for Capillary refill is too low"],
+      max: [500, "Value provided for Capillary refill is too high"],
     },
     rightPupil: {
       type: String,
       default: "R",
       enum: {
         values: ["R", "NR"],
-        message: "{VALUE} is not valid",
+        message:
+          "Value provided for Right pupil is not valid. It must be 'R' or 'NR'",
       },
     },
     leftPupil: {
@@ -64,8 +99,16 @@ const dailySchema = mongoose.Schema(
       default: "R",
       enum: {
         values: ["R", "NR"],
-        message: "{VALUE} is not valid",
+        message:
+          "Value provided for Left pupil is not valid. It must be 'R' or 'NR'",
       },
+    },
+    idPatient: {
+      type: mongoose.Types.ObjectId,
+      required: [
+        true,
+        "Daily form must contain an identifier from the patient",
+      ],
     },
   },
   { timestamps: true }

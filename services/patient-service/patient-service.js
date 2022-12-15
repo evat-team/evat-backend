@@ -1,54 +1,50 @@
 const { PatientModel } = require("../../models");
 const { NotFoundError } = require("../../errors");
 
-const returnAllPatients = async () => {
-  const patients = await PatientModel.find();
-  return patients;
-};
-
-const returnPatient = async (id) => {
-  const patient = await PatientModel.findById(id);
-
-  if (!patient) {
-    throw new NotFoundError("Patient was not found");
+class PatientService {
+  async returnAllPatients() {
+    const patients = await PatientModel.find();
+    return patients;
   }
 
-  return patient;
-};
+  async returnPatient(id) {
+    const patient = await PatientModel.findById(id);
 
-const createPatient = async (newUser) => {
-  const newPatient = await PatientModel.create({ ...newUser });
-  return newPatient;
-};
+    if (!patient) {
+      throw new NotFoundError("Patient was not found");
+    }
 
-const updatePatientById = async (id, userInfo) => {
-  const updatedPatient = await PatientModel.findByIdAndUpdate(
-    id,
-    { ...userInfo },
-    { new: true, runValidators: true }
-  );
-
-  if (!updatedPatient) {
-    throw new NotFoundError("Patient was not found");
+    return patient;
   }
 
-  return updatedPatient;
-};
-
-const deletePatientById = async (id) => {
-  const patientDeleted = await PatientModel.findByIdAndRemove(id);
-
-  if (!patientDeleted) {
-    throw new NotFoundError("Patient was not found");
+  async createPatient(newUser) {
+    const newPatient = await PatientModel.create({ ...newUser });
+    return newPatient;
   }
 
-  return patientDeleted;
-};
+  async updatePatientById(id, userInfo) {
+    const updatedPatient = await PatientModel.findByIdAndUpdate(
+      id,
+      { ...userInfo },
+      { new: true, runValidators: true }
+    );
 
-module.exports = {
-  returnAllPatients,
-  returnPatient,
-  createPatient,
-  updatePatientById,
-  deletePatientById,
-};
+    if (!updatedPatient) {
+      throw new NotFoundError("Patient was not found");
+    }
+
+    return updatedPatient;
+  }
+
+  async deletePatientById(id) {
+    const patientDeleted = await PatientModel.findByIdAndRemove(id);
+
+    if (!patientDeleted) {
+      throw new NotFoundError("Patient was not found");
+    }
+
+    return patientDeleted;
+  }
+}
+
+module.exports = new PatientService();
