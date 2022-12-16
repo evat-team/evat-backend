@@ -1,9 +1,23 @@
 const { PatientModel } = require("../../models");
 const { NotFoundError } = require("../../errors");
+const APIQuery = require("../../utils/api-query");
 
 class PatientService {
   async returnAllPatients() {
     const patients = await PatientModel.find();
+    return patients;
+  }
+
+  async returnFilteringPatients(query) {
+    const queryFilter = PatientModel.find();
+
+    const patients = await new APIQuery({ ...query }, queryFilter)
+      .filter()
+      .sort("name")
+      .fields("name", "age", "palliative", "services", "typeOfCancer")
+      .skip()
+      .endFilter();
+
     return patients;
   }
 

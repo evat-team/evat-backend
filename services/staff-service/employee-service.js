@@ -16,7 +16,7 @@ class EmployeeService {
       .filter()
       .sort()
       .skip()
-      .fields("name", "email")
+      .fields("name", "email", "role", "phone")
       .endFilter();
 
     return results;

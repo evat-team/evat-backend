@@ -122,7 +122,7 @@ dailySchema.pre("save", function (next) {
     case this.hour >= 15 && this.hour <= 21:
       this.shift = "TV";
       break;
-    case this.hour >= 22 && this.hour <= 7:
+    case this.hour >= 22 || this.hour <= 7:
       this.shift = "TN";
       break;
     default:

@@ -3,6 +3,8 @@ const { patientController } = require("./../../controllers");
 
 const patientRouter = express.Router();
 
+patientRouter.route("/filter").get(patientController.getFilteringPatients);
+
 patientRouter
   .route("/")
   .get(patientController.getAllPatients)

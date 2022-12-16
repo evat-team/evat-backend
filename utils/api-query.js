@@ -21,7 +21,7 @@ class APIQuery {
     return this;
   }
 
-  skip(defaultLimit = 50, defaultPage = 1) {
+  skip(defaultLimit = 100000, defaultPage = 1) {
     const limit = parseInt(this.query.limit) || defaultLimit;
     const page = parseInt(this.query.page) || defaultPage;
     const skipResults = (page - 1) * limit;
