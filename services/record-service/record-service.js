@@ -19,19 +19,24 @@ class RecordService {
   }
 
   async createRecord(recordInfo) {
-    const newRecord = RecordModel.create({ ...recordInfo });
+    const newRecord = await RecordModel.create({ ...recordInfo });
 
     return newRecord;
   }
 
   async deleteRecordById(id) {
-    const recordDeleted = RecordModel.findByIdAndRemove(id);
+    const recordDeleted = await RecordModel.findByIdAndRemove(id);
 
     if (!recordDeleted) {
       throw new NotFoundError("Record was not found");
     }
 
     return recordDeleted;
+  }
+
+  async clearHistory() {
+    const results = await RecordModel.deleteMany();
+    return results;
   }
 }
 

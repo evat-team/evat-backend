@@ -3,6 +3,8 @@ const { recordController } = require("../../controllers");
 
 const router = express.Router();
 
+router.route("/clean-history").delete(recordController.deleteAllRecords);
+
 router
   .route("/")
   .get(recordController.getAllRecords)

@@ -7,11 +7,11 @@ const dailySchema = mongoose.Schema(
       required: [true, "Hour must be specified"],
       min: [
         0,
-        "Value provided for Hour is too low. It must be between [0 - 24]",
+        "Value provided for Hour is too low. It must be between [0 - 23]",
       ],
       max: [
-        24,
-        "Value provided for Hour is too high. It must be between [0 - 24]",
+        23,
+        "Value provided for Hour is too high. It must be between [0 - 23]",
       ],
     },
     shift: {
@@ -103,12 +103,38 @@ const dailySchema = mongoose.Schema(
           "Value provided for Left pupil is not valid. It must be 'R' or 'NR'",
       },
     },
+    neuro: {
+      type: Number,
+      min: [0, "Value provided for Evat Neurological is too low"],
+      max: [10, "Value provided for Evat Neurological is too high"],
+    },
+    cardio: {
+      type: Number,
+      min: [0, "Value provided for Evat Cardio is too low"],
+      max: [10, "Value provided for Evat Cardio is too high"],
+    },
+    resp: {
+      type: Number,
+      min: [0, "Value provided for Evat Respiratory is too low"],
+      max: [10, "Value provided for Evat Respiratory is too high"],
+    },
+    nurseConcern: {
+      type: Number,
+      min: [0, "Value provided for Evat Nurse Concern is too low"],
+      max: [10, "Value provided for Evat Nurse Concern is too high"],
+    },
+    familyConcern: {
+      type: Number,
+      min: [0, "Value provided for Evat Family Concern is too low"],
+      max: [10, "Value provided for Evat Family Concern is too high"],
+    },
     idPatient: {
       type: mongoose.Types.ObjectId,
       required: [
         true,
         "Daily form must contain an identifier from the patient",
       ],
+      ref: "Patient",
     },
   },
   { timestamps: true }

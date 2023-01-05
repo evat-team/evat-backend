@@ -1,6 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
 const { DailyFormService } = require("../../services");
 
+// @ desc    Return all Evat forms
+// @ access  Private
+// @ method  GET
 const getAllDailyForms = async (req, res) => {
   const dailyForms = await DailyFormService.returnAllDailyForm();
 
@@ -11,6 +14,9 @@ const getAllDailyForms = async (req, res) => {
   });
 };
 
+// @ desc    Return an Evat form by id
+// @ access  Private
+// @ method  GET
 const getDailyForm = async (req, res) => {
   const { id } = req.params;
 
@@ -22,6 +28,23 @@ const getDailyForm = async (req, res) => {
   });
 };
 
+// @ desc    Return all Evat forms
+// @ access  Private
+// @ method  GET
+const getPatientForms = async (req, res) => {
+  const { idPatient } = req.params;
+
+  const forms = await DailyFormService.returnPatientForms(idPatient);
+
+  res.status(StatusCodes.OK).json({
+    result: forms,
+    sucess: "true",
+  });
+};
+
+// @ desc    Create an Evat form
+// @ access  Private
+// @ method  POST
 const addDailyForm = async (req, res) => {
   const newDailyForm = await DailyFormService.createDailyForm({ ...req.body });
 
@@ -31,6 +54,9 @@ const addDailyForm = async (req, res) => {
   });
 };
 
+// @ desc    Update an Evat form by id
+// @ access  Private
+// @ method  UPDATE
 const updateDailyForm = async (req, res) => {
   const { id } = req.params;
 
@@ -44,6 +70,9 @@ const updateDailyForm = async (req, res) => {
   });
 };
 
+// @ desc    Remove an Evat form by id
+// @ access  Private
+// @ method  Delete
 const deleteDailyForm = async (req, res) => {
   const { id } = req.params;
 
@@ -61,4 +90,5 @@ module.exports = {
   addDailyForm,
   updateDailyForm,
   deleteDailyForm,
+  getPatientForms,
 };

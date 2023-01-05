@@ -1,4 +1,4 @@
-const { BadRequestError, ForbiddenError } = require("../errors");
+const { BadRequestError, ForbiddenError } = require("../../errors");
 const { StatusCodes } = require("http-status-codes");
 
 const errorHandlerMiddleware = (err, req, res, next) => {

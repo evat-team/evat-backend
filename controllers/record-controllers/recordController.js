@@ -38,6 +38,16 @@ const updateRecord = async (req, res) => {
   });
 };
 
+const deleteAllRecords = async (req, res) => {
+  const recordsDeleted = await RecordService.clearHistory();
+
+  res.status(StatusCodes.ACCEPTED).json({
+    result: recordsDeleted,
+    results: recordsDeleted.length,
+    success: "true",
+  });
+};
+
 const deleteRecord = async (req, res) => {
   const { id } = req.params;
 
@@ -55,4 +65,5 @@ module.exports = {
   addRecord,
   deleteRecord,
   updateRecord,
+  deleteAllRecords,
 };
