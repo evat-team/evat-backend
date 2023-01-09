@@ -1,5 +1,5 @@
 const { NotFoundError } = require("../../errors");
-const { DailyFormModel } = require("../../models");
+const { DailyFormModel, PatientModel } = require("../../models");
 const APIQuery = require("../../utils/api-query");
 
 /**
@@ -9,7 +9,7 @@ const APIQuery = require("../../utils/api-query");
  * @property {Number} bloodPressure
  * @property {Number} FC Heart rate
  * @property {Number} FR Respiratory rate
- * @property {mongoose.Types.ObjectId} [idPatient]
+ * @property {mongoose.Types.ObjectId} idPatient
  * @property {Number} SO2
  * @property {Number} ltsO2
  * @property {Number} pain
@@ -25,7 +25,6 @@ const APIQuery = require("../../utils/api-query");
 
 /**
  * @class Provide several functions to interact with  the daily form collection
- * @descriptionn Handle the logic to interact with the daily form collection
  */
 class DailyFormService {
   /**
@@ -60,7 +59,14 @@ class DailyFormService {
    * @returns {Array<Object>} Evat forms of a patient
    */
   async returnPatientForms(idPatient) {
+    const patient = await PatientModel.findById(idPatient);
+
+    if (patient) {
+      throw new NotFoundError("Patient no longer exists");
+    }
+
     const results = await DailyFormModel.find({ idPatient });
+
     return results;
   }
 
@@ -86,7 +92,25 @@ class DailyFormService {
    * @returns Evat form created in the DB
    */
   async createDailyForm(newForm) {
-    const newDailyForm = await DailyFormModel.create({ ...newForm });
+    const newDailyForm = await DailyFormModel.create({
+      hour: newForm.hour,
+      temperature: newForm.temperature,
+      bloodPressure: newForm.bloodPressure,
+      FC: newForm.FC,
+      FR: newForm.FR,
+      SO2: newForm.SO2,
+      ltsO2: newForm.ltsO2,
+      pain: newForm.pain,
+      capillaryRefill: newForm.capillaryRefill,
+      rightPupil: newForm.rightPupil,
+      leftPupi: newForm.leftPupil,
+      neuro: newForm.neuro,
+      cardio: newForm.cardio,
+      resp: newForm.resp,
+      nurseConcern: newForm.nurseConcern,
+      familyConcern: newForm.familyConcern,
+      idPatient: newForm.idPatient,
+    });
 
     return newDailyForm;
   }
@@ -101,7 +125,25 @@ class DailyFormService {
   async updateDailyFormById(id, newDailyFormInfo) {
     const newDailyForm = await DailyFormModel.findByIdAndUpdate(
       id,
-      { ...newDailyFormInfo },
+      {
+        hour: newDailyFormInfo.hour,
+        temperature: newDailyFormInfo.temperature,
+        bloodPressure: newDailyFormInfo.bloodPressure,
+        FC: newDailyFormInfo.FC,
+        FR: newDailyFormInfo.FR,
+        SO2: newDailyFormInfo.SO2,
+        ltsO2: newDailyFormInfo.ltsO2,
+        pain: newDailyFormInfo.pain,
+        capillaryRefill: newDailyFormInfo.capillaryRefill,
+        rightPupil: newDailyFormInfo.rightPupil,
+        leftPupi: newDailyFormInfo.leftPupil,
+        neuro: newDailyFormInfo.neuro,
+        cardio: newDailyFormInfo.cardio,
+        resp: newDailyFormInfo.resp,
+        nurseConcern: newDailyFormInfo.nurseConcern,
+        familyConcern: newDailyFormInfo.familyConcern,
+        idPatient: newDailyFormInfo.idPatient,
+      },
       {
         new: true,
         runValidators: true,
@@ -129,6 +171,24 @@ class DailyFormService {
     }
 
     return dailyFormRemoved;
+  }
+
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id
+   * @returns {Array<EvatFormObject>} Evat forms deleted
+   * @throws {NotFoundError} In case patient was not found
+   */
+  async removeAllPatientForms(idPatient) {
+    const patient = await PatientModel.findById(idPatient);
+
+    if (patient) {
+      throw new NotFoundError("Patient no longer exists");
+    }
+
+    const forms = await DailyFormModel.deleteMany({ idPatient });
+
+    return forms;
   }
 }
 

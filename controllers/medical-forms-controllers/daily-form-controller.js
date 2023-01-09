@@ -8,7 +8,7 @@ const getAllDailyForms = async (req, res) => {
   const dailyForms = await DailyFormService.returnAllDailyForm();
 
   res.status(StatusCodes.OK).json({
-    data: dailyForms,
+    result: dailyForms,
     noResults: dailyForms.length,
     sucess: "true",
   });
@@ -23,7 +23,7 @@ const getDailyForm = async (req, res) => {
   const dailyForm = await DailyFormService.returnDailyFormById(id);
 
   res.status(StatusCodes.OK).json({
-    data: dailyForm,
+    result: dailyForm,
     sucess: "true",
   });
 };
@@ -49,7 +49,7 @@ const addDailyForm = async (req, res) => {
   const newDailyForm = await DailyFormService.createDailyForm({ ...req.body });
 
   res.status(StatusCodes.CREATED).json({
-    data: newDailyForm,
+    result: newDailyForm,
     sucess: "true",
   });
 };
@@ -65,7 +65,7 @@ const updateDailyForm = async (req, res) => {
   });
 
   res.status(StatusCodes.OK).json({
-    data: newDailyForm,
+    result: newDailyForm,
     sucess: "true",
   });
 };
@@ -79,7 +79,21 @@ const deleteDailyForm = async (req, res) => {
   const dailyFormDeleted = await DailyFormService.deleteDailyFormById(id);
 
   res.status(StatusCodes.OK).json({
-    data: dailyFormDeleted,
+    result: dailyFormDeleted,
+    sucess: "true",
+  });
+};
+
+// @ desc    Remove all Evat form a patient
+// @ access  Private
+// @ method  Delete
+const deleteAllPatientForms = async (req, res) => {
+  const { idPatient } = req.params;
+
+  const forms = await DailyFormService.removeAllPatientForms(idPatient);
+
+  res.status(StatusCodes.OK).json({
+    result: forms,
     sucess: "true",
   });
 };
@@ -91,4 +105,5 @@ module.exports = {
   updateDailyForm,
   deleteDailyForm,
   getPatientForms,
+  deleteAllPatientForms,
 };

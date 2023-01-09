@@ -1,6 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
 const { RecordService } = require("../../services");
 
+// @ desc    Return all Records
+// @ access  Private
+// @ method  GET
 const getAllRecords = async (req, res) => {
   const records = await RecordService.returnAllRecords();
 
@@ -11,6 +14,9 @@ const getAllRecords = async (req, res) => {
   });
 };
 
+// @ desc    Return a single record
+// @ access  Private
+// @ method  GET
 const getRecord = async (req, res) => {
   const { id } = req.params;
 
@@ -22,6 +28,9 @@ const getRecord = async (req, res) => {
   });
 };
 
+// @ desc    Create a new Record
+// @ access  Private
+// @ method  POST
 const addRecord = async (req, res) => {
   const newRecord = await RecordService.createRecord({ ...req.body });
 
@@ -38,6 +47,9 @@ const updateRecord = async (req, res) => {
   });
 };
 
+// @ desc    Return all Evat forms
+// @ access  Private
+// @ method  GET
 const deleteAllRecords = async (req, res) => {
   const recordsDeleted = await RecordService.clearHistory();
 
@@ -48,6 +60,9 @@ const deleteAllRecords = async (req, res) => {
   });
 };
 
+// @ desc    Remove a Record
+// @ access  Private
+// @ method  DELETE
 const deleteRecord = async (req, res) => {
   const { id } = req.params;
 

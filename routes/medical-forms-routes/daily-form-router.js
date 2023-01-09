@@ -4,6 +4,10 @@ const { dailyFormController } = require("../../controllers");
 const router = express.Router();
 
 router
+  .route("/patient-evat-form/:idPatient")
+  .get(dailyFormController.getPatientForms);
+
+router
   .route("/")
   .get(dailyFormController.getAllDailyForms)
   .post(dailyFormController.addDailyForm);

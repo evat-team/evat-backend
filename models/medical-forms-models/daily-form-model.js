@@ -105,28 +105,38 @@ const dailySchema = mongoose.Schema(
     },
     neuro: {
       type: Number,
+      required: [true, "Neurological value is required"],
       min: [0, "Value provided for Evat Neurological is too low"],
-      max: [10, "Value provided for Evat Neurological is too high"],
+      max: [3, "Value provided for Evat Neurological is too high"],
     },
     cardio: {
       type: Number,
+      required: [true, "Cardiological value is required"],
       min: [0, "Value provided for Evat Cardio is too low"],
-      max: [10, "Value provided for Evat Cardio is too high"],
+      max: [3, "Value provided for Evat Cardio is too high"],
     },
     resp: {
       type: Number,
+      required: [true, "Respiratory value is required"],
       min: [0, "Value provided for Evat Respiratory is too low"],
-      max: [10, "Value provided for Evat Respiratory is too high"],
+      max: [3, "Value provided for Evat Respiratory is too high"],
     },
     nurseConcern: {
       type: Number,
+      required: [true, "Nurse concern is required"],
       min: [0, "Value provided for Evat Nurse Concern is too low"],
-      max: [10, "Value provided for Evat Nurse Concern is too high"],
+      max: [3, "Value provided for Evat Nurse Concern is too high"],
     },
     familyConcern: {
       type: Number,
+      required: [true, "Family concern is required"],
       min: [0, "Value provided for Evat Family Concern is too low"],
-      max: [10, "Value provided for Evat Family Concern is too high"],
+      max: [3, "Value provided for Evat Family Concern is too high"],
+    },
+    evatResult: {
+      type: Number,
+      min: [0, "Value for Evat result is too low"],
+      max: [3, "Value for Evat result is too high"],
     },
     idPatient: {
       type: mongoose.Types.ObjectId,
@@ -154,6 +164,17 @@ dailySchema.pre("save", function (next) {
     default:
       break;
   }
+  next();
+});
+
+dailySchema.pre("save", function (next) {
+  this.evatResult = Math.max(
+    this.cardio,
+    this.neuro,
+    this.resp,
+    this.familyConcern,
+    this.nurseConcern
+  );
   next();
 });
 

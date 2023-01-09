@@ -8,7 +8,7 @@ const getAllPatients = async (req, res) => {
   const patients = await PatientService.returnAllPatients();
 
   res.status(StatusCodes.OK).json({
-    data: patients,
+    result: patients,
     noResults: patients.length,
     success: "true",
   });
@@ -23,7 +23,7 @@ const getFilteringPatients = async (req, res) => {
   });
 
   res.status(StatusCodes.OK).json({
-    data: patients,
+    result: patients,
     results: patients.length,
     success: "true",
   });
@@ -52,7 +52,7 @@ const getNursePatients = async (req, res) => {
   const patients = await PatientService.returnNursePatients(idNurse);
 
   res.status(StatusCodes.OK).json({
-    data: patients,
+    result: patients,
     noResults: patients.length,
     success: "true",
   });

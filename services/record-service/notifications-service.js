@@ -16,7 +16,7 @@ const { NotFoundError } = require("../../errors");
  */
 class NotificationService {
   /**
-   * @return {Array<NotificationObject>} Array of all the documents inside the Notifications collection
+   * @return {Array<NotificationObject>} All notifications.
    */
   async returnAllNotifications() {
     const results = await NotificationsModel.find();
@@ -27,7 +27,7 @@ class NotificationService {
    *
    * @param {mongoose.Types.ObjectId} id Notification ID
    * @return {NotificationObject} Notification document
-   * @throws {NotFoundError} In case that the notification was not found
+   * @throws {NotFoundError} In case Notification was not found
    */
   async returnSingleNotification(id) {
     const result = await NotificationsModel.findById(id);
@@ -42,7 +42,7 @@ class NotificationService {
   /**
    *
    * @param {mongoose.Types.ObjectId} idPatient
-   * @return {Array<NotificationObject>} Array of all the documents belong to a single patient
+   * @return {Array<NotificationObject>} All documents belong to a single patient
    */
   async returnPatientNotifications(idPatient) {
     const results = await NotificationsModel.find({ idPatient });
@@ -52,7 +52,7 @@ class NotificationService {
   /**
    *
    * @param {mongoose.Types.ObjectId} idDoctor
-   * @return {Array<NotificationObject>} Array of all the documents belong to a doctor
+   * @return {Array<NotificationObject>} All documents belong to a doctor
    */
   async returnDoctorNotifications(idDoctor) {
     const results = await NotificationsModel.find({ idDoctor });
@@ -62,7 +62,7 @@ class NotificationService {
   /**
    *
    * @param {mongoose.Types.ObjectId} idTransmitter
-   * @return {Array<NotificationObject>} Array of all the documents belong to a nurse
+   * @return {Array<NotificationObject>} All documents belong to a nurse
    */
   async returnNurseNotifications(idTransmitter) {
     const results = await NotificationsModel.find({ idTransmitter });

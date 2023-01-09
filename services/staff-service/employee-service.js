@@ -14,14 +14,12 @@ const APIQuery = require("../../utils/api-query");
  */
 
 /**
- *
- * @description Handle the incoming request to get or modify data in the Employee collection
- * @class Provide different function to comunicate with the Employee collection in the DB
+ * @class Provide different function to interact with the Employee collection
  */
 class EmployeeService {
   /**
    *
-   * @returns {Array<EmployeeObject>} List of all employess in the DB
+   * @returns {Array<EmployeeObject>} All employess.
    */
   async returnAllEmployees() {
     const results = await EmployeeModel.find();
@@ -52,8 +50,8 @@ class EmployeeService {
   /**
    *
    * @param {mongoose.Types.ObjectId} id Employee ID
-   * @returns {EmployeeObject} Employee found in the DB
-   * @throws {NotFoundError} In case that the user was not found
+   * @returns {EmployeeObject} Employee found.
+   * @throws {NotFoundError} In case User was not found
    */
   async returnSingleEmployee(id) {
     const result = await EmployeeModel.findById(id);
@@ -68,7 +66,7 @@ class EmployeeService {
   /**
    *
    * @param {EmployeeObject} employee
-   * @returns {EmployeeObject} Employee created in the DB
+   * @returns {EmployeeObject} Employee created.
    */
   async createEmployee(employee) {
     const newEmployee = await EmployeeModel.create({
@@ -86,9 +84,9 @@ class EmployeeService {
   /**
    *
    * @param {mongoose.Types.ObjectId} id Employee ID
-   * @param {Object} employee New values to the Employee document
+   * @param {Object} employee New values for the Employee.
    * @returns {EmployeeObject} Employee updated
-   * @throws {NotFoundError} In case that the employee was not found
+   * @throws {NotFoundError} In case Employee was not found
    */
   async updateEmployee(id, employee) {
     const employeeUpdated = await EmployeeModel.findByIdAndUpdate(
@@ -115,7 +113,7 @@ class EmployeeService {
    * @param {mongoose.Types.ObjectId} id Employee ID
    * @param {String} newPassword New password for the employee
    * @returns {EmployeeObject} Employee with new password
-   * @throws {NotFoundError} In case that the employee was not found
+   * @throws {NotFoundError} In case Employee was not found
    */
   async changePassword(id, newPassword) {
     if (!newPassword)
@@ -146,8 +144,8 @@ class EmployeeService {
   /**
    *
    * @param {mongoose.Types.ObjectId} id Employee ID
-   * @returns {EmployeeObject} Employee deleted from the DB
-   * @throws {NotFoundError} In case that the employee was not found
+   * @returns {EmployeeObject} Employee deleted
+   * @throws {NotFoundError} In case Employee was not found
    */
   async deleteEmployee(id) {
     const employeeDeleted = await EmployeeModel.findByIdAndRemove(id);

@@ -8,7 +8,7 @@ const getAllNotifications = async (req, res) => {
   const notifications = await NotificationService.returnAllNotifications();
 
   res.status(StatusCodes.OK).json({
-    results: notifications,
+    result: notifications,
     noResults: notifications.length,
     success: "true",
   });
@@ -53,7 +53,7 @@ const getDoctorNotifications = async (req, res) => {
   );
 
   res.status(StatusCodes.OK).json({
-    results: notifications,
+    result: notifications,
     noResults: notifications.length,
     success: "true",
   });
@@ -70,7 +70,7 @@ const getNurseNotifications = async (req, res) => {
   );
 
   res.status(StatusCodes.OK).json({
-    results: notifications,
+    result: notifications,
     noResults: notifications.length,
     success: "true",
   });
@@ -85,7 +85,7 @@ const addNotification = async (req, res) => {
   });
 
   res.status(StatusCodes.CREATED).json({
-    results: notification,
+    result: notification,
     success: "true",
   });
 };
@@ -100,7 +100,7 @@ const updateNotification = async (req, res) => {
   });
 
   res.status(StatusCodes.ACCEPTED).json({
-    results: notification,
+    result: notification,
     success: "true",
   });
 };
@@ -114,7 +114,7 @@ const confirmNotification = async (req, res) => {
   const notification = await NotificationService.notificationConfirmed(id);
 
   res.status(StatusCodes.ACCEPTED).json({
-    results: notification,
+    result: notification,
     success: "true",
   });
 };
@@ -128,7 +128,7 @@ const deleteNotification = async (req, res) => {
   const notification = await NotificationService.deleteSingleNotification(id);
 
   res.status(StatusCodes.ACCEPTED).json({
-    results: notification,
+    result: notification,
     success: "true",
   });
 };
@@ -144,7 +144,7 @@ const deleteDoctorNotifications = async (req, res) => {
   );
 
   res.status(StatusCodes.ACCEPTED).json({
-    results: notifications,
+    result: notifications,
     success: "true",
   });
 };

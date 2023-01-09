@@ -8,7 +8,7 @@ const getAllEmployees = async (req, res) => {
   const users = await EmployeeService.returnAllEmployees();
 
   res.status(StatusCodes.OK).json({
-    data: users,
+    result: users,
     noResults: users.length,
     success: true,
   });
@@ -23,7 +23,7 @@ const getFilteringEmployees = async (req, res) => {
   });
 
   res.status(StatusCodes.OK).json({
-    data: results,
+    result: results,
     noResults: results.length,
     success: true,
   });
@@ -37,7 +37,7 @@ const getEmployee = async (req, res) => {
   const user = await EmployeeService.returnSingleEmployee(id);
 
   res.status(StatusCodes.OK).json({
-    data: user,
+    result: user,
     success: true,
   });
 };
@@ -65,7 +65,7 @@ const updateEmployee = async (req, res) => {
   });
 
   res.status(StatusCodes.ACCEPTED).json({
-    data: updatedUser,
+    result: updatedUser,
     success: true,
   });
 };
@@ -80,7 +80,7 @@ const changePassword = async (req, res) => {
   const user = await EmployeeService.changePassword(id, password);
 
   res.status(StatusCodes.ACCEPTED).json({
-    data: user,
+    result: user,
     success: true,
   });
 };
@@ -93,7 +93,7 @@ const deleteEmployee = async (req, res) => {
   const deletedUser = await EmployeeService.deleteEmployee(id);
 
   res.status(StatusCodes.ACCEPTED).json({
-    data: deletedUser,
+    result: deletedUser,
     success: true,
   });
 };

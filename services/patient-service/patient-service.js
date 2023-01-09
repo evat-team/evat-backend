@@ -9,17 +9,16 @@ const APIQuery = require("../../utils/api-query");
  * @property {String} palliative Define if the user has a palliative state or not
  * @property {String} typeOfCancer Name of the type of cancer of the user
  * @property {String} services Name of the services that the patient uses
- * @property {mongoose.Types.ObjectId} [idNurse] Define the id of the nurse in charge of the patient
+ * @property {mongoose.Types.ObjectId} [idNurse] Id of the nurse in charge of the patient
  */
 
 /**
  * @class Provide several functios to interact with the patient collection
- * @description Handle the incoming requests for the patient collection in the DB
  */
 class PatientService {
   /**
    *
-   * @returns {Array<PatientObject>} Returns all the patients registered in the DB
+   * @returns {Array<PatientObject>} Returns all patients
    */
   async returnAllPatients() {
     const patients = await PatientModel.find();
@@ -50,7 +49,7 @@ class PatientService {
   /**
    *
    * @param {String} idNurse Nurse ID
-   * @returns {Array<PatientObject>} List of the patients matched to the nurse ID
+   * @returns {Array<PatientObject>} Patients matched to the nurse ID
    */
   async returnNursePatients(idNurse) {
     const results = await PatientModel.find({ idNurse });
@@ -60,7 +59,7 @@ class PatientService {
   /**
    *
    * @param {mongoose.Types.ObjectId} id Patient ID
-   * @returns {PatientObject} Returns the patient found in the DB
+   * @returns {PatientObject} Returns the patient found
    * @throws {NotFoundError} Throws an error if the patient was not found
    */
   async returnPatient(id) {
@@ -76,8 +75,7 @@ class PatientService {
   /**
    *
    * @param {PatientObject} newUser
-   * @returns {PatientObject} Returns the new patient registered in the DB
-   * @throws Throws an error in case that one of the values provided is not valid
+   * @returns {PatientObject} New patient created
    */
   async createPatient(newUser) {
     const newPatient = await PatientModel.create({
@@ -122,7 +120,7 @@ class PatientService {
    *
    * @param {mongoose.Types.ObjectId} id Patient ID
    * @returns {PatientObject} Patient without an Nurse ID
-   * @description Deletes the current value for 'idNurse' in the patient document
+   * @description Deletes the current value for 'idNurse' of the patient
    * @throws {NotFoundError} In case that the patient was not found
    */
   async deleteIdNurse(id) {
@@ -141,10 +139,10 @@ class PatientService {
   /**
    *
    * @param {mongoose.Types.ObjectId} id Patient ID
-   * @param {mongoose.Types.ObjectId} idNurse New value for 'idNurse' for the patient
-   * @returns {PatientObject} Patient with the new Nurse ID
-   * @description Set the current value for 'idNurse' in the patient document
-   * @throws {NotFoundError} In case that the patient was not found
+   * @param {mongoose.Types.ObjectId} idNurse Nurse ID
+   * @returns {PatientObject} Patient updated
+   * @description Set the current value for 'idNurse' of the patient
+   * @throws {NotFoundError} In case Patient was not found
    */
   async setIdNurse(id, idNurse) {
     const patientUpdated = await PatientModel.findByIdAndUpdate(
@@ -163,8 +161,8 @@ class PatientService {
   /**
    *
    * @param {mongoose.Types.ObjectId} id Patient ID
-   * @returns {PatientObject} Returns the patient deleted in the DB
-   * @throws {NotFoundError} Throws an error if the patient was not found
+   * @returns {PatientObject} Returns the patient deleted
+   * @throws {NotFoundError} Error if the patient was not found
    */
   async deletePatientById(id) {
     const patientDeleted = await PatientModel.findByIdAndRemove(id);
