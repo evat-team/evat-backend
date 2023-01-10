@@ -41,12 +41,14 @@ const employeeSchema = mongoose.Schema(
         64,
         "Name is too long. It must contain less than 64 characters",
       ],
+      select: false,
     },
     phone: {
       type: String,
       required: [true, "Please provide a phone number"],
       validate: {
-        validator: (phone) => validator.isMobilePhone(phone, "es-MX"),
+        validator: (phone) =>
+          validator.isMobilePhone(phone, ["es-MX", "en-US"]),
         message: "Invalid phone number",
       },
     },

@@ -6,6 +6,22 @@ const router = express.Router();
 router.route("/filter").get(employeeController.getFilteringEmployees);
 
 router
+  .route("/nurses")
+  .get(
+    employeeController.getAllNurses,
+    employeeController.getFilteringEmployees
+  );
+
+router
+  .route("/doctors")
+  .get(
+    employeeController.getAllDoctors,
+    employeeController.getFilteringEmployees
+  );
+
+router.route("/change-password/:id").post(employeeController.changePassword);
+
+router
   .route("/")
   .get(employeeController.getAllEmployees)
   .post(employeeController.addEmployee);

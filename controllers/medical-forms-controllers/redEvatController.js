@@ -1,6 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
 const { RedEvatService } = require("../../services");
 
+// @ desc    Return all Red Evat forms
+// @ access  Private
+// @ method  GET
 const getAllRedEvats = async (req, res) => {
   const redEvats = await RedEvatService.returnAllRedEvats();
 
@@ -11,6 +14,9 @@ const getAllRedEvats = async (req, res) => {
   });
 };
 
+// @ desc    Return a single Red Evat form
+// @ access  Private
+// @ method  GET
 const getRedEvat = async (req, res) => {
   const { id } = req.params;
 
@@ -22,6 +28,9 @@ const getRedEvat = async (req, res) => {
   });
 };
 
+// @ desc    Create a new Red Evat form
+// @ access  Private
+// @ method  POST
 const addRedEvat = async (req, res) => {
   const redEvat = await RedEvatService.createRedEvat({ ...req.body });
 
@@ -31,6 +40,9 @@ const addRedEvat = async (req, res) => {
   });
 };
 
+// @ desc    Update a Red Evat Form
+// @ access  Private
+// @ method  PATCH
 const updateRedEvat = async (req, res) => {
   const { id } = req.params;
 
@@ -44,6 +56,9 @@ const updateRedEvat = async (req, res) => {
   });
 };
 
+// @ desc    Delete a Red Evat form
+// @ access  Private
+// @ method  DELETE
 const deleteRedEvat = async (req, res) => {
   const { id } = req.params;
 

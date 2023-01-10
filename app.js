@@ -18,6 +18,7 @@ app.use("/api/v1/red-evat", router.redEvatRouter);
 app.use("/api/v1/patient", router.patientRouter);
 
 app.use("/api/v1/record", router.recordRouter);
+app.use("/api/v1/notification", router.notificationsRouter);
 
 app.use("/api/v1/employee", router.employeeRouter);
 

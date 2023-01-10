@@ -1,12 +1,67 @@
 const { PatientModel } = require("../../models");
 const { NotFoundError } = require("../../errors");
+const APIQuery = require("../../utils/api-query");
 
+/**
+ * @typedef  {Object} PatientObject
+ * @property {String} name Name of the patient
+ * @property {Number} age Age of the patient
+ * @property {String} palliative Define if the user has a palliative state or not
+ * @property {String} typeOfCancer Name of the type of cancer of the user
+ * @property {String} services Name of the services that the patient uses
+ * @property {mongoose.Types.ObjectId} [idNurse] Id of the nurse in charge of the patient
+ */
+
+/**
+ * @class Provide several functios to interact with the patient collection
+ */
 class PatientService {
+  /**
+   *
+   * @returns {Array<PatientObject>} Returns all patients
+   */
   async returnAllPatients() {
     const patients = await PatientModel.find();
     return patients;
   }
 
+  /**
+   *
+   * @param {Object} query Types of data to search for patients with the same values
+   * @example
+   * const query = {name: "Roberto", sort="age", fields="name,age"}
+   * QueryResult -> [{name: "Roberto", age: 10}, {name: "Roberto", age: 17}]
+   * @returns {Array<PatientObject>} Return all the patients matched to the query
+   */
+  async returnFilteringPatients(query) {
+    const queryFilter = PatientModel.find();
+
+    const patients = await new APIQuery({ ...query }, queryFilter)
+      .filter()
+      .sort()
+      .fields()
+      .skip()
+      .endFilter();
+
+    return patients;
+  }
+
+  /**
+   *
+   * @param {String} idNurse Nurse ID
+   * @returns {Array<PatientObject>} Patients matched to the nurse ID
+   */
+  async returnNursePatients(idNurse) {
+    const results = await PatientModel.find({ idNurse });
+    return results;
+  }
+
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Patient ID
+   * @returns {PatientObject} Returns the patient found
+   * @throws {NotFoundError} Throws an error if the patient was not found
+   */
   async returnPatient(id) {
     const patient = await PatientModel.findById(id);
 
@@ -17,15 +72,40 @@ class PatientService {
     return patient;
   }
 
+  /**
+   *
+   * @param {PatientObject} newUser
+   * @returns {PatientObject} New patient created
+   */
   async createPatient(newUser) {
-    const newPatient = await PatientModel.create({ ...newUser });
+    const newPatient = await PatientModel.create({
+      name: newUser.name,
+      age: newUser.age,
+      palliative: newUser.palliative,
+      typeOfCancer: newUser.typeOfCancer,
+      services: newUser.services,
+    });
+
     return newPatient;
   }
 
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Patient ID
+   * @param {Object} userInfo New values for the patient
+   * @returns {PatientObject} Returns the patient updated
+   * @throws {NotFoundError} Throws an error if the patient was not found
+   */
   async updatePatientById(id, userInfo) {
     const updatedPatient = await PatientModel.findByIdAndUpdate(
       id,
-      { ...userInfo },
+      {
+        name: userInfo.name,
+        age: userInfo.age,
+        palliative: userInfo.palliative,
+        typeOfCancer: userInfo.typeOfCancer,
+        services: userInfo.services,
+      },
       { new: true, runValidators: true }
     );
 
@@ -36,6 +116,54 @@ class PatientService {
     return updatedPatient;
   }
 
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Patient ID
+   * @returns {PatientObject} Patient without an Nurse ID
+   * @description Deletes the current value for 'idNurse' of the patient
+   * @throws {NotFoundError} In case that the patient was not found
+   */
+  async deleteIdNurse(id) {
+    const patient = await PatientModel.findByIdAndUpdate(
+      id,
+      { idNurse: null },
+      { new: true }
+    );
+
+    if (!patient) {
+      throw new NotFoundError("Patient was not found");
+    }
+    return patient;
+  }
+
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Patient ID
+   * @param {mongoose.Types.ObjectId} idNurse Nurse ID
+   * @returns {PatientObject} Patient updated
+   * @description Set the current value for 'idNurse' of the patient
+   * @throws {NotFoundError} In case Patient was not found
+   */
+  async setIdNurse(id, idNurse) {
+    const patientUpdated = await PatientModel.findByIdAndUpdate(
+      id,
+      { idNurse },
+      { new: true }
+    );
+
+    if (!patientUpdated) {
+      throw new NotFoundError("Patient was not found");
+    }
+
+    return patientUpdated;
+  }
+
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Patient ID
+   * @returns {PatientObject} Returns the patient deleted
+   * @throws {NotFoundError} Error if the patient was not found
+   */
   async deletePatientById(id) {
     const patientDeleted = await PatientModel.findByIdAndRemove(id);
 

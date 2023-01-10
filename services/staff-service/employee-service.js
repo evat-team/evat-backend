@@ -3,12 +3,37 @@ const { NotFoundError, BadRequestError } = require("../../errors");
 const bcrypt = require("bcrypt");
 const APIQuery = require("../../utils/api-query");
 
+/**
+ * @typedef {Object} EmployeeObject
+ * @property {String} name
+ * @property {String} email
+ * @property {String} phone
+ * @property {String} password
+ * @property {String} role Value for role must be between [DOCTOR, NURSE, ADMIN, RESIDENT]
+ * @property {String} [specialty] If the employee is a doctor you can specify an specialty
+ */
+
+/**
+ * @class Provide different function to interact with the Employee collection
+ */
 class EmployeeService {
+  /**
+   *
+   * @returns {Array<EmployeeObject>} All employess.
+   */
   async returnAllEmployees() {
     const results = await EmployeeModel.find();
     return results;
   }
 
+  /**
+   *
+   * @param {Object} query Types of data to search for employees with the same values
+   * @example
+   * const query = {role: "NURSE", fields="name,role"}
+   * QueryResult -> [{name: "Maria", role: "NURSE"}, {name: "SARA", role: "NURSE"}]
+   * @returns {Array<EmployeeObject>} Return all the employees matched to the query
+   */
   async returnFilteringResults(query) {
     const queryFilter = EmployeeModel.find();
 
@@ -16,12 +41,18 @@ class EmployeeService {
       .filter()
       .sort()
       .skip()
-      .fields("name", "email")
+      .fields()
       .endFilter();
 
     return results;
   }
 
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Employee ID
+   * @returns {EmployeeObject} Employee found.
+   * @throws {NotFoundError} In case User was not found
+   */
   async returnSingleEmployee(id) {
     const result = await EmployeeModel.findById(id);
 
@@ -32,29 +63,41 @@ class EmployeeService {
     return result;
   }
 
+  /**
+   *
+   * @param {EmployeeObject} employee
+   * @returns {EmployeeObject} Employee created.
+   */
   async createEmployee(employee) {
-    const newEmployee = await EmployeeModel.create({ ...employee });
+    const newEmployee = await EmployeeModel.create({
+      name: employee.name,
+      email: employee.email,
+      phone: employee.phone,
+      password: employee.password,
+      role: employee.role,
+      specialty: employee.specialty,
+    });
+
     return newEmployee;
   }
 
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Employee ID
+   * @param {Object} employee New values for the Employee.
+   * @returns {EmployeeObject} Employee updated
+   * @throws {NotFoundError} In case Employee was not found
+   */
   async updateEmployee(id, employee) {
-    let { password } = employee;
-    let newPass = password;
-
-    if (password) {
-      if (password.length < 6 || password.length > 128) {
-        throw new BadRequestError("Please provide a correct password");
-      }
-
-      const salt = await bcrypt.genSalt(10);
-      newPass = await bcrypt.hash(password, salt);
-
-      delete employee.password;
-    }
-
     const employeeUpdated = await EmployeeModel.findByIdAndUpdate(
       id,
-      { ...employee, password: newPass },
+      {
+        name: employee.name,
+        email: employee.email,
+        phone: employee.phone,
+        role: employee.role,
+        specialty: employee.specialty,
+      },
       { new: true, runValidators: true }
     );
 
@@ -65,6 +108,45 @@ class EmployeeService {
     return employeeUpdated;
   }
 
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Employee ID
+   * @param {String} newPassword New password for the employee
+   * @returns {EmployeeObject} Employee with new password
+   * @throws {NotFoundError} In case Employee was not found
+   */
+  async changePassword(id, newPassword) {
+    if (!newPassword)
+      throw new BadRequestError("Please provide a new password");
+
+    if (newPassword.length < 6)
+      throw new BadRequestError("Password must contain at least 6 characters");
+
+    if (newPassword.length > 128)
+      throw new BadRequestError("Password is too long");
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const employeeUpdated = await EmployeeModel.findByIdAndUpdate(
+      id,
+      { password: hashedPassword },
+      { new: true, runValidators: true }
+    );
+
+    if (!employeeUpdated) {
+      throw new NotFoundError("User was not found");
+    }
+
+    return employeeUpdated;
+  }
+
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} id Employee ID
+   * @returns {EmployeeObject} Employee deleted
+   * @throws {NotFoundError} In case Employee was not found
+   */
   async deleteEmployee(id) {
     const employeeDeleted = await EmployeeModel.findByIdAndRemove(id);
 

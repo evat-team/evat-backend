@@ -35,11 +35,11 @@ const redEvatSchema = mongoose.Schema(
       required: [true, "First hour Evat is required"],
       min: [
         0,
-        "Value provided for First Evat hour is too low. It must be between [0 - 24]",
+        "Value provided for First Evat hour is too low. It must be between [0 - 23]",
       ],
       max: [
         23,
-        "Value provided for First Evat hour is too high. It must be between [0 - 24]",
+        "Value provided for First Evat hour is too high. It must be between [0 - 23]",
       ],
       get: (hour) => `${hour}:00`,
     },
@@ -222,6 +222,7 @@ const redEvatSchema = mongoose.Schema(
         true,
         "Daily form must contain an identifier from the patient",
       ],
+      ref: "Patient",
     },
   },
   { timestamps: true }

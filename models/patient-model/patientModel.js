@@ -18,7 +18,7 @@ const PatientSchema = mongoose.Schema({
   },
   age: {
     type: Number,
-    required: [true, "Please provide a name"],
+    required: [true, "Please provide an Age"],
     max: [20, "Invalid age. Age is too high"],
     min: [0, "Invalid age. Age is too low"],
   },
@@ -43,6 +43,8 @@ const PatientSchema = mongoose.Schema({
   },
   idNurse: {
     type: mongoose.Types.ObjectId,
+    default: null,
+    ref: "Nurse",
   },
 });
 

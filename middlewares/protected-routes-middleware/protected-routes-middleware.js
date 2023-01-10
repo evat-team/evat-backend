@@ -1,4 +1,4 @@
-const { ForbiddenError } = require("../errors");
+const { ForbiddenError } = require("../../errors");
 
 const routeAccessAllowedfor = (...roles) => {
   return async (req, res, next) => {
