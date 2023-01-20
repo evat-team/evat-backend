@@ -1,5 +1,5 @@
-const { PatientModel } = require("../../models");
-const { NotFoundError } = require("../../errors");
+const { PatientModel, EmployeeModel } = require("../../models");
+const { NotFoundError, BadRequestError } = require("../../errors");
 const APIQuery = require("../../utils/api-query");
 
 /**
@@ -52,7 +52,18 @@ class PatientService {
    * @returns {Array<PatientObject>} Patients matched to the nurse ID
    */
   async returnNursePatients(idNurse) {
+    if (!idNurse) {
+      throw new BadRequestError("Please provide an Employee id");
+    }
+
+    const employee = await EmployeeModel.findById(idNurse);
+
+    if (!employee) {
+      throw new NotFoundError("Employee was not found");
+    }
+
     const results = await PatientModel.find({ idNurse });
+
     return results;
   }
 
@@ -142,9 +153,23 @@ class PatientService {
    * @param {mongoose.Types.ObjectId} idNurse Nurse ID
    * @returns {PatientObject} Patient updated
    * @description Set the current value for 'idNurse' of the patient
-   * @throws {NotFoundError} In case Patient was not found
+   * @throws {NotFoundError | BadRequestError}
    */
   async setIdNurse(id, idNurse) {
+    const patients = await this.returnNursePatients(idNurse);
+
+    if (patients.length >= parseInt(process.env.MAX_PATIENTS_FOR_NURSE)) {
+      throw new BadRequestError("This nurse can only have 6 patients or less");
+    }
+
+    const employee = await EmployeeModel.findById(idNurse);
+
+    if (employee.role !== "NURSE") {
+      throw new BadRequestError(
+        "The Employee you're trying to set is not a nurse"
+      );
+    }
+
     const patientUpdated = await PatientModel.findByIdAndUpdate(
       id,
       { idNurse },

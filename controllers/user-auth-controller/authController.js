@@ -15,6 +15,7 @@ const signIn = async (req, res) => {
     .cookie("jwt", token, { expiresIn: process.env.TOKEN_DURATION })
     .status(StatusCodes.ACCEPTED)
     .json({
+      result: loggedUser,
       success: "true",
       msg: "usuario loggeado",
     });

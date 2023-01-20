@@ -5,8 +5,11 @@ const router = express.Router();
 
 router
   .route("/doctor-notifications/:idDoctor")
-  .get(notificationController.getDoctorNotifications)
-  .delete(notificationController.deleteDoctorNotifications);
+  .get(notificationController.getDoctorNotifications);
+
+router
+  .route("/new-doctor-notifications/:idDoctor")
+  .get(notificationController.getNewDoctorNotifications);
 
 router
   .route("/patient-notifications/:idPatient")
@@ -14,11 +17,16 @@ router
 
 router
   .route("/nurse-notifications/:idTransmitter")
-  .get(notificationController.getNurseNotifications);
+  .get(notificationController.getNurseNotifications)
+  .delete(notificationController.deleteNurseNotifications);
 
 router
   .route("/confirm-notification/:id")
   .patch(notificationController.confirmNotification);
+
+router
+  .route("/not-seen-notification/:id")
+  .patch(notificationController.notSeenNotification);
 
 router
   .route("/")
