@@ -53,13 +53,13 @@ class PatientService {
    */
   async returnNursePatients(idNurse) {
     if (!idNurse) {
-      throw new BadRequestError("Please provide an Employee id");
+      throw new BadRequestError("Please provide an Nurse id");
     }
 
-    const employee = await EmployeeModel.findById(idNurse);
+    const nurse = await EmployeeModel.findById(idNurse);
 
-    if (!employee) {
-      throw new NotFoundError("Employee was not found");
+    if (!nurse) {
+      throw new NotFoundError("Nurse was not found");
     }
 
     const results = await PatientModel.find({ idNurse });
@@ -158,16 +158,16 @@ class PatientService {
   async setIdNurse(id, idNurse) {
     const patients = await this.returnNursePatients(idNurse);
 
-    if (patients.length >= parseInt(process.env.MAX_PATIENTS_FOR_NURSE)) {
-      throw new BadRequestError("This nurse can only have 6 patients or less");
-    }
-
     const employee = await EmployeeModel.findById(idNurse);
 
     if (employee.role !== "NURSE") {
       throw new BadRequestError(
         "The Employee you're trying to set is not a nurse"
       );
+    }
+
+    if (patients.length >= parseInt(process.env.MAX_PATIENTS_FOR_NURSE)) {
+      throw new BadRequestError("This nurse can only have 6 patients or less");
     }
 
     const patientUpdated = await PatientModel.findByIdAndUpdate(
