@@ -53,7 +53,7 @@ class PatientService {
    */
   async returnNursePatients(idNurse) {
     if (!idNurse) {
-      throw new BadRequestError("Please provide an Nurse id");
+      throw new BadRequestError("Please provide a Nurse id");
     }
 
     const nurse = await EmployeeModel.findById(idNurse);
