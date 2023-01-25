@@ -59,6 +59,22 @@ const getDoctorNotifications = async (req, res) => {
   });
 };
 
+// @ desc    Return all notifications matched with a doctor id
+// @ access  Private
+// @ method  GET
+const getNewDoctorNotifications = async (req, res) => {
+  const { idDoctor } = req.params;
+
+  const notifications =
+    await NotificationService.returnAllNewDoctorNotifications(idDoctor);
+
+  res.status(StatusCodes.OK).json({
+    result: notifications,
+    noResults: notifications.length,
+    success: "true",
+  });
+};
+
 // @ desc    Return all notifications matched with a Nurse
 // @ access  Private
 // @ method  GET
@@ -111,7 +127,27 @@ const updateNotification = async (req, res) => {
 const confirmNotification = async (req, res) => {
   const { id } = req.params;
 
-  const notification = await NotificationService.notificationConfirmed(id);
+  const notification = await NotificationService.notificationConfirmed(
+    id,
+    true
+  );
+
+  res.status(StatusCodes.ACCEPTED).json({
+    result: notification,
+    success: "true",
+  });
+};
+
+// @ desc    Update the 'confirm' value as false
+// @ access  Private
+// @ method  PATCH
+const notSeenNotification = async (req, res) => {
+  const { id } = req.params;
+
+  const notification = await NotificationService.notificationConfirmed(
+    id,
+    false
+  );
 
   res.status(StatusCodes.ACCEPTED).json({
     result: notification,
@@ -133,14 +169,14 @@ const deleteNotification = async (req, res) => {
   });
 };
 
-// @ desc    Delete all notifications matched with a doctor id
+// @ desc    Delete all notifications matched with a Transmitter id
 // @ access  Private
 // @ method  DELETE
-const deleteDoctorNotifications = async (req, res) => {
-  const { idDoctor } = req.params;
+const deleteNurseNotifications = async (req, res) => {
+  const { idTransmitter } = req.params;
 
-  const notifications = await NotificationService.deleteAllDoctorNotifications(
-    idDoctor
+  const notifications = await NotificationService.deleteAllNurseNotifications(
+    idTransmitter
   );
 
   res.status(StatusCodes.ACCEPTED).json({
@@ -158,6 +194,8 @@ module.exports = {
   updateNotification,
   confirmNotification,
   deleteNotification,
-  deleteDoctorNotifications,
+  deleteNurseNotifications,
   getNurseNotifications,
+  getNewDoctorNotifications,
+  notSeenNotification,
 };

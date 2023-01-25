@@ -5,7 +5,8 @@ const router = express.Router();
 
 router
   .route("/patient-evat-form/:idPatient")
-  .get(dailyFormController.getPatientForms);
+  .get(dailyFormController.getPatientForms)
+  .delete(dailyFormController.deleteAllPatientForms);
 
 router
   .route("/")

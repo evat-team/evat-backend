@@ -1,4 +1,4 @@
-const { NotFoundError } = require("../../errors");
+const { NotFoundError, BadRequestError } = require("../../errors");
 const { DailyFormModel, PatientModel } = require("../../models");
 const APIQuery = require("../../utils/api-query");
 
@@ -59,9 +59,13 @@ class DailyFormService {
    * @returns {Array<Object>} Evat forms of a patient
    */
   async returnPatientForms(idPatient) {
+    if (!idPatient) {
+      throw new BadRequestError("Please provide a Patient id");
+    }
+
     const patient = await PatientModel.findById(idPatient);
 
-    if (patient) {
+    if (!patient) {
       throw new NotFoundError("Patient no longer exists");
     }
 
@@ -180,9 +184,13 @@ class DailyFormService {
    * @throws {NotFoundError} In case patient was not found
    */
   async removeAllPatientForms(idPatient) {
+    if (!idPatient) {
+      throw new BadRequestError("Please provide a Patient id");
+    }
+
     const patient = await PatientModel.findById(idPatient);
 
-    if (patient) {
+    if (!patient) {
       throw new NotFoundError("Patient no longer exists");
     }
 
