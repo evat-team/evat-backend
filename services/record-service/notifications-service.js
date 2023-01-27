@@ -79,7 +79,7 @@ class NotificationService {
       throw new NotFoundError("Employee was not found");
     }
 
-    if (employee.role !== "DOCTOR" || employee.role !== "RESIDENT") {
+    if (employee.role !== "DOCTOR" && employee.role !== "RESIDENT") {
       throw new BadRequestError("Employee is not a doctor or resident");
     }
 
@@ -103,11 +103,12 @@ class NotificationService {
       throw new NotFoundError("Employee was not found");
     }
 
-    if (employee.role !== "DOCTOR" || employee.role !== "RESIDENT") {
+    if (employee.role !== "DOCTOR" && employee.role !== "RESIDENT") {
       throw new BadRequestError("Employee is not a doctor or resident");
     }
 
     const results = await NotificationsModel.find({ idDoctor, gotIt: false });
+
     return results;
   }
 
@@ -137,7 +138,7 @@ class NotificationService {
    * @return {NotificationObject} Notification created in the DB
    */
   async createNotification(notification) {
-    const nurse = await EmployeeModel.findById(idTransmitter);
+    const nurse = await EmployeeModel.findById(notification.idTransmitter);
 
     if (!nurse) {
       throw new NotFoundError("Nurse was not found");
@@ -147,17 +148,17 @@ class NotificationService {
       throw new BadRequestError("This employee is not a nurse");
     }
 
-    const doctor = await EmployeeModel.findById(idTransmitter);
+    const doctor = await EmployeeModel.findById(notification.idDoctor);
 
     if (!doctor) {
       throw new NotFoundError("Doctor was not found");
     }
 
-    if (doctor.role !== "DOCTOR" || doctor.role !== "RESIDENT") {
+    if (doctor.role !== "DOCTOR" && doctor.role !== "RESIDENT") {
       throw new BadRequestError("This employee is not a doctor or resident");
     }
 
-    const patient = await PatientModel.findById(patient);
+    const patient = await PatientModel.findById(notification.idPatient);
 
     if (!patient) {
       throw new NotFoundError("Patient was not found");
@@ -169,6 +170,24 @@ class NotificationService {
       idTransmitter: notification.idTransmitter,
       idDoctor: notification.idDoctor,
       idPatient: notification.idPatient,
+    });
+
+    const message = {
+      to: "ExponentPushToken[lo4MtgBfISlgMNwiKTVNjM]",
+      sound: "default",
+      title: notification.title,
+      body: notification.description,
+      data: { testData: "test data" },
+    };
+
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Accept-encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
     });
 
     return result;
