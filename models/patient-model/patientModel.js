@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const PatientSchema = mongoose.Schema({
+const PatientSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
@@ -16,11 +16,9 @@ const PatientSchema = mongoose.Schema({
       message: "Name must not contain numbers or any rare characters",
     },
   },
-  age: {
-    type: Number,
-    required: [true, "Please provide an Age"],
-    max: [20, "Invalid age. Age is too high"],
-    min: [0, "Invalid age. Age is too low"],
+  birthDateIso: {
+    type: Date,
+    required: [true, "Please provide a birth date"],
   },
   palliative: {
     type: String,
@@ -44,8 +42,15 @@ const PatientSchema = mongoose.Schema({
   idNurse: {
     type: mongoose.Types.ObjectId,
     default: null,
-    ref: "Nurse",
+    ref: "Employee",
   },
+});
+
+PatientSchema.set("toObject", { virtuals: true });
+PatientSchema.set("toJSON", { virtuals: true });
+
+PatientSchema.virtual("birthDate").get(function () {
+  return this.birthDateIso.toISOString().substring(0, 10);
 });
 
 const patientModel = mongoose.model("Patient", PatientSchema);

@@ -150,6 +150,19 @@ const dailySchema = mongoose.Schema(
   { timestamps: true }
 );
 
+dailySchema.set("toObject", { virtuals: true });
+dailySchema.set("toJSON", { virtuals: true });
+
+dailySchema.virtual("createdAtFormat").get(function () {
+  const dateToReturn = this.createdAt.toISOString().split("T").join(" Hour: ");
+  return dateToReturn.slice(0, dateToReturn.length - 4);
+});
+
+dailySchema.virtual("updatedAtFormat").get(function () {
+  const dateToReturn = this.updatedAt.toISOString().split("T").join(" Hour: ");
+  return dateToReturn.slice(0, dateToReturn.length - 4);
+});
+
 dailySchema.pre("save", function (next) {
   switch (true) {
     case this.hour >= 8 && this.hour <= 14:

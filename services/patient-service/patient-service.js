@@ -91,7 +91,7 @@ class PatientService {
   async createPatient(newUser) {
     const newPatient = await PatientModel.create({
       name: newUser.name,
-      age: newUser.age,
+      birthDateIso: newUser.birthDateIso,
       palliative: newUser.palliative,
       typeOfCancer: newUser.typeOfCancer,
       services: newUser.services,
@@ -112,7 +112,7 @@ class PatientService {
       id,
       {
         name: userInfo.name,
-        age: userInfo.age,
+        birthDateIso: userInfo.birthDateIso,
         palliative: userInfo.palliative,
         typeOfCancer: userInfo.typeOfCancer,
         services: userInfo.services,
