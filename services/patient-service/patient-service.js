@@ -1,4 +1,9 @@
-const { PatientModel, EmployeeModel } = require("../../models");
+const {
+  PatientModel,
+  EmployeeModel,
+  DailyFormModel,
+  NotificationsModel,
+} = require("../../models");
 const { NotFoundError, BadRequestError } = require("../../errors");
 const APIQuery = require("../../utils/api-query");
 
@@ -190,11 +195,17 @@ class PatientService {
    * @throws {NotFoundError} Error if the patient was not found
    */
   async deletePatientById(id) {
-    const patientDeleted = await PatientModel.findByIdAndRemove(id);
+    // Confirms if the patient exists
+    const patient = await this.returnPatient(id);
 
-    if (!patientDeleted) {
-      throw new NotFoundError("Patient was not found");
-    }
+    // Delete all forms created for this patient
+    await DailyFormModel.deleteMany({ idPatient: id });
+
+    // Delete all notifications created for this patient
+    await NotificationsModel.deleteMany({ idPatient: id });
+
+    // Delete the patient
+    await PatientModel.findByIdAndRemove(id);
 
     return patientDeleted;
   }

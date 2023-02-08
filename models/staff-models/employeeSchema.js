@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 
-const employeeSchema = mongoose.Schema(
+const employeeSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -46,6 +46,7 @@ const employeeSchema = mongoose.Schema(
     phone: {
       type: String,
       required: [true, "Please provide a phone number"],
+      unique: true,
       validate: {
         validator: (phone) =>
           validator.isMobilePhone(phone, ["es-MX", "en-US"]),
