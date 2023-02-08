@@ -196,7 +196,7 @@ class PatientService {
    */
   async deletePatientById(id) {
     // Confirms if the patient exists
-    const patient = await this.returnPatient(id);
+    await this.returnPatient(id);
 
     // Delete all forms created for this patient
     await DailyFormModel.deleteMany({ idPatient: id });
