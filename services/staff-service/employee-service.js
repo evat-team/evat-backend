@@ -69,7 +69,19 @@ class EmployeeService {
 
   /**
    *
-   * @param {EmployeeObject} employee
+   * @returns {EmployeeObject} Employees with doctor and resident role found.
+   */
+  async returnDoctorAndResidents() {
+    const result = await EmployeeModel.find({
+      $or: [{ role: "DOCTOR" }, { role: "RESIDENT" }],
+    });
+
+    return result;
+  }
+
+  /**
+   *
+   * @param {Array<EmployeeObject>} employee
    * @returns {EmployeeObject} Employee created.
    */
   async createEmployee(employee) {

@@ -12,12 +12,7 @@ router
     employeeController.getFilteringEmployees
   );
 
-router
-  .route("/doctors")
-  .get(
-    employeeController.getAllDoctors,
-    employeeController.getFilteringEmployees
-  );
+router.route("/doctors").get(employeeController.getAllDoctors);
 
 router.route("/change-password/:id").post(employeeController.changePassword);
 

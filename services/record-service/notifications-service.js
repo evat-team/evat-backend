@@ -196,32 +196,6 @@ class NotificationService {
   /**
    *
    * @param {mongoose.Types.ObjectId} id Notification ID
-   * @param {Object} notificationInfo
-   * @returns {NotificationObject} Notification updated
-   */
-  async updateNotification(id, notificationInfo) {
-    const result = await NotificationsModel.findByIdAndUpdate(
-      id,
-      {
-        title: notificationInfo.title,
-        description: notificationInfo.description,
-        idNurse: notificationInfo.idNurse,
-        idDoctor: notificationInfo.idDoctor,
-        idPatient: notificationInfo.idPatient,
-      },
-      { new: true, runValidators: true }
-    );
-
-    if (!result) {
-      throw new NotFoundError("Notification was not found");
-    }
-
-    return result;
-  }
-
-  /**
-   *
-   * @param {mongoose.Types.ObjectId} id Notification ID
    * @param {boolean} confirmed Indicates that the user has seen or not the notification
    * @returns {NotificationObject} Notification updated
    */

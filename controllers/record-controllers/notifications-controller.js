@@ -106,18 +106,10 @@ const addNotification = async (req, res) => {
   });
 };
 
-// @ desc    Update a notification
-// @ access  Private
-// @ method  PATCH
 const updateNotification = async (req, res) => {
-  const { id } = req.params;
-  const notification = await NotificationService.updateNotification(id, {
-    ...req.body,
-  });
-
-  res.status(StatusCodes.ACCEPTED).json({
-    result: notification,
-    success: "true",
+  res.status(StatusCodes.NOT_IMPLEMENTED).json({
+    msg: "Method not implemented",
+    success: "false",
   });
 };
 
