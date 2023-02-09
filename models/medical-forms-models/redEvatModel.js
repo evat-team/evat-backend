@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const redEvatSchema = mongoose.Schema(
+const redEvatSchema = new mongoose.Schema(
   {
     /* first Red Evat */
 

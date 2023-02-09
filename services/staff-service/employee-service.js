@@ -1,4 +1,8 @@
-const { EmployeeModel } = require("../../models");
+const {
+  EmployeeModel,
+  PatientModel,
+  NotificationsModel,
+} = require("../../models");
 const { NotFoundError, BadRequestError } = require("../../errors");
 const bcrypt = require("bcrypt");
 const APIQuery = require("../../utils/api-query");
@@ -89,6 +93,16 @@ class EmployeeService {
    * @throws {NotFoundError} In case Employee was not found
    */
   async updateEmployee(id, employee) {
+    const emp = await this.returnSingleEmployee(id);
+
+    if (emp.role === "NURSE" && employee.role !== "NURSE") {
+      await this._checkNurseHasPatients(id);
+    }
+
+    if (emp.role !== "DOCTOR" && emp.role !== "RESIDENT") {
+      delete employee.specialty;
+    }
+
     const employeeUpdated = await EmployeeModel.findByIdAndUpdate(
       id,
       {
@@ -100,10 +114,6 @@ class EmployeeService {
       },
       { new: true, runValidators: true }
     );
-
-    if (!employeeUpdated) {
-      throw new NotFoundError("User was not found");
-    }
 
     return employeeUpdated;
   }
@@ -148,13 +158,45 @@ class EmployeeService {
    * @throws {NotFoundError} In case Employee was not found
    */
   async deleteEmployee(id) {
-    const employeeDeleted = await EmployeeModel.findByIdAndRemove(id);
+    const employee = await this.returnSingleEmployee(id);
 
-    if (!employeeDeleted) {
-      throw new NotFoundError("User was not found");
+    if (employee.role === "NURSE") {
+      await this._checkNurseHasPatients(id);
     }
 
-    return employeeDeleted;
+    if (employee.role === "DOCTOR" || employee.role === "RESIDENT") {
+      await this._deleteDoctorNotifications(id);
+    }
+
+    await EmployeeModel.findByIdAndRemove(id);
+
+    return employee;
+  }
+
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} idNurse Nurse ID
+   * @desc Checks if the nurse still has patients
+   */
+  async _checkNurseHasPatients(idNurse) {
+    const patients = await PatientModel.find({ idNurse });
+
+    if (patients.length > 0) {
+      throw new BadRequestError(
+        "You can't perform this action due this nurse still has patients assigned"
+      );
+    }
+
+    await NotificationsModel.deleteMany({ idTransmitter: idNurse });
+  }
+
+  /**
+   *
+   * @param {mongoose.Types.ObjectId} idDoctor Doctor ID
+   * @desc Checks if doctor or resident still has notifications and delete them
+   */
+  async _deleteDoctorNotifications(idDoctor) {
+    await NotificationsModel.deleteMany({ idDoctor });
   }
 }
 

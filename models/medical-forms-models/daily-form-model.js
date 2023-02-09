@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const dailySchema = mongoose.Schema(
+const dailySchema = new mongoose.Schema(
   {
     hour: {
       type: Number,
