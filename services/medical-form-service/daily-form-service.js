@@ -96,6 +96,12 @@ class DailyFormService {
    * @returns Evat form created in the DB
    */
   async createDailyForm(newForm) {
+    const patient = await PatientModel.findById(newForm.idPatient);
+
+    if (!patient) {
+      throw new NotFoundError("Patient was not found");
+    }
+
     const newDailyForm = await DailyFormModel.create({
       hour: newForm.hour,
       temperature: newForm.temperature,
@@ -127,6 +133,12 @@ class DailyFormService {
    * @throws {NotFoundError} In case that the patient was not found
    */
   async updateDailyFormById(id, newDailyFormInfo) {
+    const patient = await PatientModel.findById(newDailyFormInfo.idPatient);
+
+    if (!patient) {
+      throw new NotFoundError("Patient was not found");
+    }
+
     const newDailyForm = await DailyFormModel.findByIdAndUpdate(
       id,
       {

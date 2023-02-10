@@ -94,7 +94,7 @@ const deleteEmployee = async (req, res) => {
 
   res.status(StatusCodes.ACCEPTED).json({
     result: deletedUser,
-    success: true,
+    success: "true",
   });
 };
 
@@ -109,9 +109,14 @@ const getAllNurses = async (req, res, next) => {
 // @ desc    Return all employee with a Doctor role
 // @ access  Private
 // @ method  GET
-const getAllDoctors = async (req, res, next) => {
-  req.query.role = "DOCTOR";
-  next();
+const getAllDoctors = async (req, res) => {
+  const result = await EmployeeService.returnDoctorAndResidents();
+
+  res.status(StatusCodes.OK).json({
+    result,
+    noResults: result.length,
+    success: "true",
+  });
 };
 
 module.exports = {

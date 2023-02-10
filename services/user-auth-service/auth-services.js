@@ -32,6 +32,8 @@ class AuthService {
       throw new NotFoundError("Incorrect password");
     }
 
+    delete loggedUser.password;
+
     return loggedUser;
   }
 }

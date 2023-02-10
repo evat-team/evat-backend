@@ -154,13 +154,11 @@ dailySchema.set("toObject", { virtuals: true });
 dailySchema.set("toJSON", { virtuals: true });
 
 dailySchema.virtual("createdAtFormat").get(function () {
-  const dateToReturn = this.createdAt.toISOString().split("T").join(" Hour: ");
-  return dateToReturn.slice(0, dateToReturn.length - 4);
+  return this.createdAt.toISOString().substring(0, 10);
 });
 
 dailySchema.virtual("updatedAtFormat").get(function () {
-  const dateToReturn = this.updatedAt.toISOString().split("T").join(" Hour: ");
-  return dateToReturn.slice(0, dateToReturn.length - 4);
+  return this.updatedAt.toISOString().substring(0, 10);
 });
 
 dailySchema.pre("save", function (next) {
