@@ -1,8 +1,8 @@
-const dailyFormRouter = require("./medical-forms-routes/daily-form-router");
+const dailyFormRouter = require("./daily-form-router/daily-form-router");
 const redEvatRouter = require("./medical-forms-routes/redEvatRouter");
 
 const recordRouter = require("./record-routes/recordRouter");
-const notificationsRouter = require("./record-routes/notification-routes");
+const notificationsRouter = require("./notification-router/notification-routes");
 
 const patientRouter = require("./patient-routes/patientRouter");
 
