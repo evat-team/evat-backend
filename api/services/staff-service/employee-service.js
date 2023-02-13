@@ -6,6 +6,7 @@ const {
 const { NotFoundError, BadRequestError } = require("../../errors");
 const bcrypt = require("bcrypt");
 const APIQuery = require("../../utils/api-query");
+const Roles = require("../../constants/roles");
 
 /**
  * @typedef {Object} EmployeeObject
@@ -73,7 +74,7 @@ class EmployeeService {
    */
   async returnDoctorAndResidents() {
     const result = await EmployeeModel.find({
-      $or: [{ role: "DOCTOR" }, { role: "RESIDENT" }],
+      $or: [{ role: Roles.DOCTOR }, { role: Roles.RESIDENT }],
     });
 
     return result;
@@ -107,11 +108,11 @@ class EmployeeService {
   async updateEmployee(id, employee) {
     const emp = await this.returnSingleEmployee(id);
 
-    if (emp.role === "NURSE" && employee.role !== "NURSE") {
+    if (emp.role === Roles.NURSE && employee.role !== Roles.NURSE) {
       await this._checkNurseHasPatients(id);
     }
 
-    if (emp.role !== "DOCTOR" && emp.role !== "RESIDENT") {
+    if (emp.role !== Roles.DOCTOR && emp.role !== Roles.RESIDENT) {
       delete employee.specialty;
     }
 
@@ -172,11 +173,11 @@ class EmployeeService {
   async deleteEmployee(id) {
     const employee = await this.returnSingleEmployee(id);
 
-    if (employee.role === "NURSE") {
+    if (employee.role === Roles.NURSE) {
       await this._checkNurseHasPatients(id);
     }
 
-    if (employee.role === "DOCTOR" || employee.role === "RESIDENT") {
+    if (employee.role === Roles.DOCTOR || employee.role === Roles.RESIDENT) {
       await this._deleteDoctorNotifications(id);
     }
 

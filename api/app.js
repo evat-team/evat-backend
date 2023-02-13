@@ -1,14 +1,32 @@
 require("express-async-errors");
-
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const router = require("./routes");
 const middlewares = require("./middlewares");
 const cors = require("cors");
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const mongoSanitizate = require("express-mongo-sanitize");
+const xss = require("xss-clean");
+const hpp = require("hpp");
 
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: "Too many requests",
+});
+
 app.use(cors());
+app.use(helmet());
+app.use(mongoSanitizate());
+app.use(xss());
+app.use(hpp());
+app.use("/api/", limiter);
+
 app.use(express.json());
 app.use(cookieParser());
 

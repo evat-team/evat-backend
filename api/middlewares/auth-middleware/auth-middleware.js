@@ -4,7 +4,13 @@ const { NotAuthenticatedError } = require("../../errors");
 const { EmployeeService } = require("../../services");
 
 const authMiddleware = async (req, res, next) => {
-  const { jwt: token } = req.cookies;
+  const { authorization } = req.headers;
+
+  if (!authorization.startsWith("Bearer ")) {
+    throw new NotAuthenticatedError("Access not allowed");
+  }
+
+  const token = authorization.split(" ")[1];
 
   if (!token) {
     throw new NotAuthenticatedError("Access not allowed");
@@ -15,7 +21,7 @@ const authMiddleware = async (req, res, next) => {
     process.env.JWT_SECRET
   );
 
-  const { _id: id } = payload;
+  const { id } = payload;
 
   const user = await EmployeeService.returnSingleEmployee(id);
 
@@ -23,7 +29,7 @@ const authMiddleware = async (req, res, next) => {
     throw new NotAuthenticatedError("User no longer exists");
   }
 
-  req.user = { ...user };
+  req.user = { ...user.toObject() };
   next();
 };
 

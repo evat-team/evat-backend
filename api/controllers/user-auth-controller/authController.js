@@ -11,14 +11,12 @@ const signIn = async (req, res) => {
   const loggedUser = await AuthService.singIn(email, password);
   const token = createToken({ ...loggedUser });
 
-  res
-    .cookie("jwt", token, { expiresIn: process.env.TOKEN_DURATION })
-    .status(StatusCodes.ACCEPTED)
-    .json({
-      result: loggedUser,
-      success: "true",
-      msg: "usuario loggeado",
-    });
+  res.status(StatusCodes.ACCEPTED).json({
+    result: loggedUser,
+    token,
+    success: "true",
+    msg: "usuario loggeado",
+  });
 };
 
 module.exports = { signIn };

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
+const Roles = require("../../constants/roles");
 
 const employeeSchema = new mongoose.Schema(
   {
@@ -58,7 +59,7 @@ const employeeSchema = new mongoose.Schema(
       required: [true, "Please provide an user role"],
       uppercase: true,
       enum: {
-        values: ["ADMIN", "NURSE", "DOCTOR", "RESIDENT"],
+        values: [Roles.ADMIN, Roles.DOCTOR, Roles.NURSE, Roles.RESIDENT],
         message: "Invalid role user: {VALUE}",
       },
     },

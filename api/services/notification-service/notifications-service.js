@@ -4,6 +4,7 @@ const {
   PatientModel,
 } = require("../../models");
 const { NotFoundError, BadRequestError } = require("../../errors");
+const Roles = require("../../constants/roles");
 
 /**
  * @typedef {Object} NotificationObject
@@ -79,7 +80,7 @@ class NotificationService {
       throw new NotFoundError("Employee was not found");
     }
 
-    if (employee.role !== "DOCTOR" && employee.role !== "RESIDENT") {
+    if (employee.role !== Roles.DOCTOR && employee.role !== Roles.RESIDENT) {
       throw new BadRequestError("Employee is not a doctor or resident");
     }
 
@@ -103,7 +104,7 @@ class NotificationService {
       throw new NotFoundError("Employee was not found");
     }
 
-    if (employee.role !== "DOCTOR" && employee.role !== "RESIDENT") {
+    if (employee.role !== Roles.DOCTOR && employee.role !== Roles.RESIDENT) {
       throw new BadRequestError("Employee is not a doctor or resident");
     }
 
@@ -144,7 +145,7 @@ class NotificationService {
       throw new NotFoundError("Nurse was not found");
     }
 
-    if (nurse.role !== "NURSE") {
+    if (nurse.role !== Roles.NURSE) {
       throw new BadRequestError("This employee is not a nurse");
     }
 
@@ -154,7 +155,7 @@ class NotificationService {
       throw new NotFoundError("Doctor was not found");
     }
 
-    if (doctor.role !== "DOCTOR" && doctor.role !== "RESIDENT") {
+    if (doctor.role !== Roles.DOCTOR && doctor.role !== Roles.RESIDENT) {
       throw new BadRequestError("This employee is not a doctor or resident");
     }
 
