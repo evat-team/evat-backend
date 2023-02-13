@@ -6,6 +6,7 @@ const {
 } = require("../../models");
 const { NotFoundError, BadRequestError } = require("../../errors");
 const APIQuery = require("../../utils/api-query");
+const Roles = require("../../constants/roles");
 
 /**
  * @typedef  {Object} PatientObject
@@ -165,7 +166,7 @@ class PatientService {
 
     const employee = await EmployeeModel.findById(idNurse);
 
-    if (employee.role !== "NURSE") {
+    if (employee.role !== Roles.NURSE) {
       throw new BadRequestError(
         "The Employee you're trying to set is not a nurse"
       );
@@ -205,7 +206,7 @@ class PatientService {
     await NotificationsModel.deleteMany({ idPatient: id });
 
     // Delete the patient
-    await PatientModel.findByIdAndRemove(id);
+    const patientDeleted = await PatientModel.findByIdAndRemove(id);
 
     return patientDeleted;
   }

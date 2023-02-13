@@ -1,5 +1,7 @@
 const express = require("express");
 const { patientController } = require("./../../controllers");
+const { authMiddleware, routeAccessAllowedFor } = require("../../middlewares");
+const Roles = require("../../constants/roles");
 
 const patientRouter = express.Router();
 
@@ -17,7 +19,11 @@ patientRouter
 patientRouter
   .route("/")
   .get(patientController.getAllPatients)
-  .post(patientController.addPatient);
+  .post(
+    authMiddleware,
+    routeAccessAllowedFor(Roles.ADMIN),
+    patientController.addPatient
+  );
 
 patientRouter
   .route("/:id")
